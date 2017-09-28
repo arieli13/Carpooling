@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Button, StyleSheet, Text, View, Alert, ActivityIndicator} from 'react-native';
 import { TextField } from 'react-native-material-textfield'; //https://www.npmjs.com/package/react-native-material-textfield
-COLORES = require('../colores');
+ESTANDARES = require('../estandares');
+COLORES=ESTANDARES.COLORES;
+TIPOGRAFIAS = ESTANDARES.TIPOGRAFIAS;
 
 export default class AutenticacionComponente extends Component{
     constructor(props){
@@ -16,10 +18,12 @@ export default class AutenticacionComponente extends Component{
 
     _Ingresar(){
         try{
-            let usuario = this.state.usuario;
+            /*let usuario = this.state.usuario;
             let contrasennia = this.state.contrasennia;
-            this.setState({conectando:true});
-            fetch('http://192.168.4.133:8080/api/login',{
+            this.setState({conectando:true});*/
+            const { navigate } = this.props.navigation;
+            navigate('M');
+            /*fetch('http://172.18.197.171:8080/api/login',{
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
@@ -42,10 +46,10 @@ export default class AutenticacionComponente extends Component{
             .catch((error) => {
               Alert.alert("Error", JSON.stringify(error, null, 2));
               this.setState({conectando:false});
-            });
+            });*/
         }catch(e){
-            Alert.alert("Error", e);
-            this.setState({conectando:false});
+            Alert.alert("Error", JSON.stringify(e, null, 2));
+            //this.setState({conectando:false});
         }
     }
 
@@ -53,11 +57,11 @@ export default class AutenticacionComponente extends Component{
         if(this.state.conectando){
             return(
                 <View style = {estilos.login}>
-                <TextField tintColor = {COLORES.AZUL}
+                <TextField fontSize = {TIPOGRAFIAS.TAMANNIO_NORMAL} tintColor = {COLORES.AZUL} baseColor = {COLORES.GRIS_MEDIO}
                     label='Usuario'
                     onChangeText={ (text) => this.setState({usuario:text})}
                 />
-                <TextField tintColor = {COLORES.AZUL} style = {estilos.textField}
+                <TextField fontSize = {TIPOGRAFIAS.TAMANNIO_NORMAL} tintColor = {COLORES.AZUL} baseColor = {COLORES.GRIS_MEDIO}
                     label='Contraseña'
                     onChangeText={ (text) => this.setState({contrasennia:text})}
                     secureTextEntry = {true}
@@ -71,11 +75,11 @@ export default class AutenticacionComponente extends Component{
         }
         return(
             <View style = {estilos.login}>
-                    <TextField tintColor = {COLORES.AZUL}
+                    <TextField fontSize = {TIPOGRAFIAS.TAMANNIO_NORMAL} tintColor = {COLORES.AZUL} baseColor = {COLORES.GRIS_MEDIO}
                         label='Usuario'
                         onChangeText={ (text) => this.setState({usuario:text})}
                     />
-                    <TextField tintColor = {COLORES.AZUL} style = {estilos.textField}
+                    <TextField fontSize = {TIPOGRAFIAS.TAMANNIO_NORMAL} tintColor = {COLORES.AZUL} baseColor = {COLORES.GRIS_MEDIO}
                         label='Contraseña'
                         onChangeText={ (text) => this.setState({contrasennia:text})}
                         secureTextEntry = {true}
@@ -99,14 +103,12 @@ const estilos = StyleSheet.create({
         marginLeft: 40,
         marginRight: 40
     },
-    textField:{
-        marginBottom : 100
-    },
     error:{
         marginTop:20,
         marginBottom: 20,
-        color: COLORES.ROJO
-        //fontSize: 10
+        color: COLORES.ROJO,
+        fontFamily: TIPOGRAFIAS.TEXTO_NORMAL,
+        fontSize: TIPOGRAFIAS.TAMANNIO_NORMAL
     }
 });
 

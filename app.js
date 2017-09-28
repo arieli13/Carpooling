@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
-import { AppRegistry} from 'react-native';
+import { AppRegistry, TouchableOpacity, Icon, View, StyleSheet, Image, Alert, Text} from 'react-native';
+
+import { StackNavigator } from 'react-navigation';
 
 import Autenticacion from './App/Pantallas/Autenticacion';
+import EscogerUsuario from './App/Pantallas/EscogerUsuario';
+/////////
+
+export default X = StackNavigator({
+    'Home': { screen: Autenticacion },
+    'M': {screen: EscogerUsuario}
+  });
 
 
-
-export default class X extends Component{
-    render(){
-        return(
-            <Autenticacion/>
-        );
-    }
-}
-
-// skip this line if using Create React Native App
 AppRegistry.registerComponent('ride', () => X);

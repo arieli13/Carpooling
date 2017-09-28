@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View} from 'react-native';
-COLORES = require('../colores');
+ESTANDARES = require('../estandares');
+COLORES=ESTANDARES.COLORES;
+TIPOGRAFIAS = ESTANDARES.TIPOGRAFIAS;
 
 export default class HeaderComponente extends Component{
     render(){
@@ -37,7 +39,8 @@ const estilosHeader = StyleSheet.create({
         marginTop: 13,
         marginBottom: 13,
         marginLeft: 0,
-        marginRight: 0
+        marginRight: 0,
+        fontFamily: TIPOGRAFIAS.TITULO
     },
   
     divider:{
@@ -45,7 +48,8 @@ const estilosHeader = StyleSheet.create({
         marginTop: 13,
         marginBottom: 13,
         marginLeft: 0,
-        marginRight: 6
+        marginRight: 6,
+        fontFamily: TIPOGRAFIAS.TITULO
     },
   
     secondary:{
@@ -54,7 +58,8 @@ const estilosHeader = StyleSheet.create({
       marginBottom: 13,
       marginLeft: 0,
       marginRight: 0,
-      color: COLORES.AZUL
+      color: COLORES.AZUL,
+      fontFamily: TIPOGRAFIAS.TITULO
     }
 });
 
