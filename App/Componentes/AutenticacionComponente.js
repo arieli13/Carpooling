@@ -22,7 +22,7 @@ export default class AutenticacionComponente extends Component{
             let contrasennia = this.state.contrasennia;
             this.setState({conectando:true});*/
             const { navigate } = this.props.navigation;
-            navigate('M');
+            navigate('EscogerUsuario');
             /*fetch('http://172.18.197.171:8080/api/login',{
                 method: 'POST',
                 headers: {

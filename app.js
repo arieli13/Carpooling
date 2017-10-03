@@ -5,11 +5,12 @@ import { StackNavigator } from 'react-navigation';
 
 import Autenticacion from './App/Pantallas/Autenticacion';
 import EscogerUsuario from './App/Pantallas/EscogerUsuario';
+import MenuPrincipalPasajero from './App/Pantallas/MenuPrincipalPasajero';
 /////////
 
 export default X = StackNavigator({
-    'Home': { screen: Autenticacion },
-    'M': {screen: EscogerUsuario}
+    'Home': { screen: MenuPrincipalPasajero },
+    'EscogerUsuario': {screen: EscogerUsuario}
   });
 
 

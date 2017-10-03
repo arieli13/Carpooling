@@ -7,7 +7,8 @@ module.exports = {
         GRIS_CLARO: '#E0E0E0',
         GRIS_MEDIO: '#95989A',
         BACKGROUND: '#F8F9FA',
-        ROJO: '#bf0000'
+        ROJO: '#bf0000',
+        NEGRO: 'black'
     },
     TIPOGRAFIAS:{
         TITULO: "Helvetica",
