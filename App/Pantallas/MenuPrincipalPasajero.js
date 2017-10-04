@@ -12,7 +12,7 @@ export default class MenuPrincipalPasajero extends Component{
       };
     render(){
         return(
-            <View style = {{flex:1}}>
+            <View style = {{flex:1, backgroundColor:COLORES.BACKGROUND}}>
                 <View style = {{flex:2}}>
                     <Image style = {{flex:1, resizeMode: "stretch"}} source={require('../Imagenes/jumbotron.png')}></Image>
                 </View>
@@ -20,13 +20,16 @@ export default class MenuPrincipalPasajero extends Component{
                 <View style = {{flex:3}}>
                     <View style = {{flex:1, alignContent: "space-around"}}>
                         <View style = {{flex: 1, flexDirection: "row", justifyContent: "space-around"}}>
-                            <CartaComponente titulo = "Buscar" descripcion = "Buscar viajes, personas, etc"></CartaComponente>
-                            <CartaComponente titulo = "Historial" descripcion = "Buscar viajes, personas, etc"></CartaComponente>
+                            <CartaComponente imagen = "../Imagenes/landscape_1.png" titulo = "Buscar" descripcion = "Buscar viajes, personas, etc"></CartaComponente>
+                            
+                            <CartaComponente imagen = "../Imagenes/landscape_1.png" titulo = "Historial" descripcion = "Información acerca de viajes realizados como pasajero"></CartaComponente>
+                        
                         </View>
-
-                        <View style = {{flex: 1, flexDirection: "row"}}>
-                            <CartaComponente titulo = "Favoritos" descripcion = "Buscar viajes, personas, etc"></CartaComponente>
-                            <CartaComponente titulo = "Bloqueados" descripcion = "Buscar viajes, personas, etc"></CartaComponente>
+                        <View style = {{flex: 1, flexDirection: "row", justifyContent: "space-around"}}>
+                            <CartaComponente imagen = "../Imagenes/landscape_1.png" titulo = "Favoritos" descripcion = "Usuarios agregados como favoritos"></CartaComponente>
+                          
+                            <CartaComponente imagen = "../Imagenes/landscape_1.png"  titulo = "Bloqueados" descripcion = "Usuarios bloqueados"></CartaComponente>
+                        
                         </View>
                     </View>
                 </View>

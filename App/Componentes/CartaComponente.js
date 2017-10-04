@@ -1,38 +1,29 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, Image} from 'react-native';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards'
-
-/*
- <TouchableOpacity style = {{flexDirection: "column", backgroundColor: COLORES.GRIS_CLARO}}>
-                            
-                            <View style = {{flex:1, flexDirection: "row"}}>
-
-                                <View style = {{flex: 1, alignItems: 'center'}}>
-                                    <Image style = {estilos.imagen}  source={require('../Imagenes/driver.jpg')} />
-                                </View>
-                                <View style={{ flex:1, borderBottomColor: 'black', borderBottomWidth: 1, justifyContent: "center" }}>
-                                    <Text>Título</Text>
-                                </View>
-
-                            </View>
-
-                            <View style = {{flex:3, flexDirection: "row", alignItems: "center"}}>
-                                <Text>Esto es un texto cualquierajksdfnisdnfkjdsnfkjsdnfkjdsnkfnsdkfnksdnfksdjnfjksn</Text>    
-                            </View>
-                        </TouchableOpacity>
-*/
+ESTANDARES = require('../estandares');
+COLORES=ESTANDARES.COLORES;
+TIPOGRAFIAS = ESTANDARES.TIPOGRAFIAS;
+//style = {{flex:1}}
 export default class CartaComponente extends Component{
     render(){
         return( 
-            <TouchableOpacity style = {{flex: 1, backgroundColor: COLORES.GRIS_CLARO, alignContent: "space-around", marginBottom: 10, marginLeft:10, marginRight: 10, marginTop: 10}}>
-                <View style = {{flex:1,  alignItems: "center", justifyContent: "space-around", borderBottomColor: 'black', borderBottomWidth: 1 ,  marginBottom: 10, marginLeft:10, marginRight: 10, marginTop: 10}}>
-                    <Text style={{flex: 1,fontSize:24, fontWeight: "bold"}}>{this.props.titulo}</Text>
+            <View style = {{ flex:1, backgroundColor: 'white', alignContent: "space-around", marginVertical:5, marginHorizontal:5}}>
+                <View style = {{flex:1,  flexDirection: "row", alignItems: "center", marginTop: 10, marginRight: 10}}>
+                    <View style = {{flex:0.6, width: 50,height: 50, borderRadius: 50/2, overflow: "hidden", alignItems: "center", position: "relative", backgroundColor: "white", margin: 10}}>
+                        <Image style = {{flex: 1, width: 50, height: 50, borderRadius: 50/2, flex:1, resizeMode: "stretch"}} source={require("../Imagenes/landscape_1.png")}></Image>
+                    </View>
+                    <View style = {{flex:1,alignItems: "center", justifyContent: "center", alignContent:"center", borderBottomColor: 'black', borderBottomWidth: 1}}>
+                        <View style = {{flex:1, justifyContent: "center"}}>
+                        <Text style={{fontSize:TIPOGRAFIAS.TAMANNIO_NORMAL, fontWeight: "bold"}}>{this.props.titulo}</Text>
+                        </View>
+                    </View>
                 </View>
                 
-                <View style = {{flex:3, alignItems: "center", justifyContent: "space-around"}}>
+                <View style = {{flex:2, alignItems: "center", justifyContent: "space-around"}}>
                     <Text style={{flex: 1, fontSize:16,  marginBottom: 10, marginLeft:10, marginRight: 10, marginTop: 10}}>{this.props.descripcion}</Text>
                 </View>
-            </TouchableOpacity>
+            </View>
         );
     }
 }

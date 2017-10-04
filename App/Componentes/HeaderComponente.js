@@ -8,7 +8,7 @@ export default class HeaderComponente extends Component{
     render(){
         return(
             <View style = {estilosHeader.header}>
-                <Text style = {estilosHeader.primary}>Ride </Text>
+                <Text style = {estilosHeader.primary}>ViajeTEC </Text>
                 <Text style= {estilosHeader.divider} >|</Text>
                 <Text style = {estilosHeader.secondary}>{this.props.nombre}</Text>
             </View>

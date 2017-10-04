@@ -6,7 +6,7 @@ module.exports = {
         VERDE: '#23A98C',
         GRIS_CLARO: '#E0E0E0',
         GRIS_MEDIO: '#95989A',
-        BACKGROUND: '#F8F9FA',
+        BACKGROUND: '#E0E0E0',//'#F8F9FA',
         ROJO: '#bf0000',
         NEGRO: 'black'
     },
@@ -14,6 +14,7 @@ module.exports = {
         TITULO: "Helvetica",
         TEXTO_NORMAL: "Arial",
         TAMANNIO_NORMAL: 16,
-        TAMANNIO_TITULO: 30
+        TAMANNIO_TITULO: 30,
+        TAMANNIO_TITULO2: 40
     }
 };
