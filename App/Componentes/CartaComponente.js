@@ -8,7 +8,7 @@ TIPOGRAFIAS = ESTANDARES.TIPOGRAFIAS;
 export default class CartaComponente extends Component{
     render(){
         return( 
-            <View style = {{ flex:1, backgroundColor: 'white', alignContent: "space-around", marginVertical:5, marginHorizontal:5}}>
+            <View style = {{ flex:1, backgroundColor: 'white', alignContent: "space-around", marginVertical:5, marginHorizontal:5, borderRadius: 10}}>
                 <View style = {{flex:1,  flexDirection: "row", alignItems: "center", marginTop: 10, marginRight: 10}}>
                     <View style = {{flex:0.6, width: 50,height: 50, borderRadius: 50/2, overflow: "hidden", alignItems: "center", position: "relative", backgroundColor: "white", margin: 10}}>
                         <Image style = {{flex: 1, width: 50, height: 50, borderRadius: 50/2, flex:1, resizeMode: "stretch"}} source={require("../Imagenes/landscape_1.png")}></Image>

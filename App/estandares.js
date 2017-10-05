@@ -8,7 +8,8 @@ module.exports = {
         GRIS_MEDIO: '#95989A',
         BACKGROUND: '#E0E0E0',//'#F8F9FA',
         ROJO: '#bf0000',
-        NEGRO: 'black'
+        NEGRO: 'black',
+        BLANCO: 'white'
     },
     TIPOGRAFIAS:{
         TITULO: "Helvetica",
@@ -16,5 +17,5 @@ module.exports = {
         TAMANNIO_NORMAL: 16,
         TAMANNIO_TITULO: 30,
         TAMANNIO_TITULO2: 40
-    }
+    } 
 };

@@ -3,7 +3,7 @@ import {View, ScrollView, Text, TextInput } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 import HeaderComponente from '../Componentes/HeaderComponente';
-import FavoritoComponente from '../Componentes/BloqueadoComponente';
+import CartaPequenniaComponente from '../Componentes/CartaPequenniaComponente';
 
 ESTANDARES = require('../estandares');
 COLORES=ESTANDARES.COLORES;
@@ -29,15 +29,15 @@ export default class Autenticacion extends Component{
                         <TextInput style = {{ borderColor : COLORES.AZUL}} placeholder = "Buscar" selectionColor = {COLORES.AZUL} placeholderTextColor = {COLORES.AZUL} underlineColorAndroid = {COLORES.AZUL} ></TextInput>
                     </View>
                     <View style = {{flex:5}}>
-                    <ScrollView style = {{flex:1}}>
+                    <ScrollView showsVerticalScrollIndicator={false} style = {{flex:1}}>
 
 
-                        <FavoritoComponente nombre = "Ariel Rodriguez" area = "Ingenieria en Computacion"></FavoritoComponente>
-                        <FavoritoComponente nombre = "Pablo Navarro" area = "Ingenieria en Computacion"></FavoritoComponente>
-                        <FavoritoComponente nombre = "Eros Hernandez" area = "Ingenieria en Computacion"></FavoritoComponente>
-                        <FavoritoComponente nombre = "Esteban Arias" area = "Funcionario"></FavoritoComponente>
-                        <FavoritoComponente nombre = "Raquel Mejias" area = "Ingenieria Ambiental"></FavoritoComponente>
-                        <FavoritoComponente nombre = "Alina Rodriguez" area = "Funcionario"></FavoritoComponente>
+                        <CartaPequenniaComponente mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Ariel Rodriguez" detalle = "Ingenieria en Computacion" imagen = "Persona"></CartaPequenniaComponente>
+                        <CartaPequenniaComponente mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Pablo Navarro" detalle = "Ingenieria en Computacion" imagen = "Persona"></CartaPequenniaComponente>
+                        <CartaPequenniaComponente mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Eros Hernandez" detalle = "Ingenieria en Computacion" imagen = "Persona"></CartaPequenniaComponente>
+                        <CartaPequenniaComponente mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Esteban Arias" detalle = "Funcionario" imagen = "Persona"></CartaPequenniaComponente>
+                        <CartaPequenniaComponente mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Raquel Mejias" detalle = "Ingenieria Ambiental" imagen = "Persona"></CartaPequenniaComponente>
+                        <CartaPequenniaComponente mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Alina Rodriguez" detalle = "Funcionario" imagen = "Persona"></CartaPequenniaComponente>
 
 
                     </ScrollView>
