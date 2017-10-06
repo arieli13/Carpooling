@@ -5,6 +5,9 @@ ESTANDARES = require('../estandares');
 COLORES=ESTANDARES.COLORES;
 TIPOGRAFIAS = ESTANDARES.TIPOGRAFIAS;
 
+import RestAPI from '../Clases/RestAPI.js';
+import Usuario from '../Clases/Usuario.js';
+
 export default class AutenticacionComponente extends Component{
     constructor(props){
         super(props);
@@ -16,44 +19,36 @@ export default class AutenticacionComponente extends Component{
         }
     }
 
-    _Ingresar(){
+    async _Ingresar(){
         try{
-            /*let usuario = this.state.usuario;
+            let usuario = this.state.usuario;
             let contrasennia = this.state.contrasennia;
-            this.setState({conectando:true});*/
+            this.setState({conectando:true});
+            
+            var respuesta = await RestAPI.autenticacion("2014053647", contrasennia);
+
+            var datos = respuesta.perfil;
+            Usuario.iniciarSesion(datos.id, datos.tipo, datos.nombre_usuario, datos.nombre, datos.apellido, datos.telefono, datos.correo, datos.area);
+            this.setState({conectando:false});
             const { navigate } = this.props.navigation;
             navigate('EscogerUsuario');
-            /*fetch('http://172.18.197.171:8080/api/login',{
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  nombre_usuario: usuario,
-                  pass: contrasennia,
-                })
-            })
-            .then((response) => response.json())
-            .then((responseJson) => {
-                if(responseJson['error']){
-                    this.setState({error:responseJson['descripcion'], conectando:false});
-                }else{
-                    Alert.alert("datos", JSON.stringify(responseJson, null, 2));
-                    this.setState({conectando:false});
-                }
-            })
-            .catch((response) => response.json())
-            .catch((error) => {
-              Alert.alert("Error", JSON.stringify(error, null, 2));
-              this.setState({conectando:false});
-            });*/
+           
         }catch(e){
-            Alert.alert("Error", JSON.stringify(e, null, 2));
-            //this.setState({conectando:false});
+            if(e.error){
+                this.setState({error: e.error});
+            }else{
+                Alert.alert("Ha ocurrido un error inesperado", JSON.stringify(e, null, 2));
+            }
+            //this.setState({error: e, conectando:false});
+            this.setState({conectando:false});
         }
     }
 
     render(){
+        /*if(Usuario.inicioSesion){
+            this.props.navigation.navigate('EscogerUsuario');
+        }*/
+
         if(this.state.conectando){
             return(
                 <View style = {estilos.login}>
