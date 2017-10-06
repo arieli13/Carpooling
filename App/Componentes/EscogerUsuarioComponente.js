@@ -9,10 +9,9 @@ export default class EscogerUsuarioComponente extends Component {
 
     _onPressImage(tipo){
         if(tipo){
-            Alert.alert("Hola", "Hola");
+            this.props.navigation.navigate('MenuPrincipalConductor');
         }else{
-            const { navigate } = this.props.navigation;
-            navigate('MenuPrincipalPasajero');
+            this.props.navigation.navigate('MenuPrincipalPasajero');
         }
     }
 

@@ -11,10 +11,13 @@ import Bloqueados from './App/Pantallas/Bloqueados';
 import ViajesPendientes from './App/Pantallas/ViajesPendientes';
 import ViajesHistoricosPasajero from './App/Pantallas/ViajesHistoricosPasajero';
 import Perfil from './App/Pantallas/Perfil';
+import MenuPrincipalConductor from './App/Pantallas/MenuPrincipalConductor';
+import Vehiculos from './App/Pantallas/Vehiculos';
+import ModificarVehiculo from './App/Pantallas/ModificarVehiculo';
 /////////
 
 export default X = StackNavigator({
-    'Home': { screen: Autenticacion },
+    'Home': { screen: ViajesPendientes },
     'EscogerUsuario': {screen: EscogerUsuario},
 
 
@@ -23,7 +26,11 @@ export default X = StackNavigator({
     'Bloqueados': {screen: Bloqueados},
     'ViajesPendientes':{screen:ViajesPendientes},
     'ViajesHistoricosPasajero':{screen: ViajesHistoricosPasajero},
-    'Perfil': {screen:Perfil}
+    'Perfil': {screen:Perfil},
+
+    'MenuPrincipalConductor':{screen:MenuPrincipalConductor},
+    'Vehiculos':{screen:Vehiculos},
+    'ModificarVehiculo':{screen:ModificarVehiculo}
   });
 
 

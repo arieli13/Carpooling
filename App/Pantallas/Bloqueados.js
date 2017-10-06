@@ -15,35 +15,30 @@ COLORES=ESTANDARES.COLORES;
                         />
  */
 
-export default class Autenticacion extends Component{
+export default class Bloqueados extends Component{
     static navigationOptions = {
         header: null
       };
 
-    _onPress(usuario){
-        Alert.alert("Eliminar usuario");
+    _Desbloquear(usuario){
+        Alert.alert("Presionado", "Desbloquear");
     }
 
     render(){
         return(
             <View  style = {{flex:1, backgroundColor: COLORES.BACKGROUND}}>
                 <HeaderComponente nombre = "Bloqueados"></HeaderComponente>
-                <View style = {{flex:1, marginLeft:30, marginRight:30}}>
-                    <View style = {{flex:1}}>
-                        <TextInput style = {{ borderColor : COLORES.AZUL}} placeholder = "Buscar" selectionColor = {COLORES.AZUL} placeholderTextColor = {COLORES.AZUL} underlineColorAndroid = {COLORES.AZUL} ></TextInput>
-                    </View>
-                    <View style = {{flex:5}}>
+                <View style = {{flex:1, marginLeft:30, marginRight:30, marginTop:30, marginBottom:30}}>
                     <ScrollView showsVerticalScrollIndicator={false} style = {{flex:1}}>
-                        <CartaPequenniaComponente onPress = {()=> {this._onPress(1)}} mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Ariel Rodriguez" detalle = "Ingenieria en Computacion" imagen = "Persona"></CartaPequenniaComponente>
-                        <CartaPequenniaComponente onPress = {()=> {this._onPress(1)}} mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Pablo Navarro" detalle = "Ingenieria en Computacion" imagen = "Persona"></CartaPequenniaComponente>
-                        <CartaPequenniaComponente onPress = {()=> {this._onPress(1)}} mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Eros Hernandez" detalle = "Ingenieria en Computacion" imagen = "Persona"></CartaPequenniaComponente>
-                        <CartaPequenniaComponente onPress = {()=> {this._onPress(1)}} mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Esteban Arias" detalle = "Funcionario" imagen = "Persona"></CartaPequenniaComponente>
-                        <CartaPequenniaComponente onPress = {()=> {this._onPress(1)}} mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Raquel Mejias" detalle = "Ingenieria Ambiental" imagen = "Persona"></CartaPequenniaComponente>
-                        <CartaPequenniaComponente onPress = {()=> {this._onPress(1)}} mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Alina Rodriguez" detalle = "Funcionario" imagen = "Persona"></CartaPequenniaComponente>
+                        <CartaPequenniaComponente boton_onPress = {()=>{this._Desbloquear(12)}} boton_activo = {true} boton_mt = {3} boton_mb = {3} boton_filled = {require('../Imagenes/unlock.png')} boton_unfilled = {require('../Imagenes/unlock.png')} boton_width = {40} boton_height = {10} imagen = {require('../Imagenes/user.jpg')} mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Ariel Rodriguez" detalle = "Ingenieria en Computacion"></CartaPequenniaComponente>
+                        <CartaPequenniaComponente boton_onPress = {()=>{this._Desbloquear(12)}} boton_activo = {true} boton_mt = {3} boton_mb = {3} boton_filled = {require('../Imagenes/unlock.png')} boton_unfilled = {require('../Imagenes/unlock.png')} boton_width = {40} boton_height = {10} imagen = {require('../Imagenes/user.jpg')} onPress = {()=> {this._onPress(1)}} mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Pablo Navarro" detalle = "Ingenieria en Computacion" ></CartaPequenniaComponente>
+                        <CartaPequenniaComponente boton_onPress = {()=>{this._Desbloquear(12)}} boton_activo = {true} boton_mt = {3} boton_mb = {3} boton_filled = {require('../Imagenes/unlock.png')} boton_unfilled = {require('../Imagenes/unlock.png')} boton_width = {40} boton_height = {10} imagen = {require('../Imagenes/user.jpg')} onPress = {()=> {this._onPress(1)}} mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Eros Hernandez" detalle = "Ingenieria en Computacion" ></CartaPequenniaComponente>
+                        <CartaPequenniaComponente boton_onPress = {()=>{this._Desbloquear(12)}} boton_activo = {true} boton_mt = {3} boton_mb = {3} boton_filled = {require('../Imagenes/unlock.png')} boton_unfilled = {require('../Imagenes/unlock.png')} boton_width = {40} boton_height = {10} imagen = {require('../Imagenes/user.jpg')} onPress = {()=> {this._onPress(1)}} mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Esteban Arias" detalle = "Funcionario" ></CartaPequenniaComponente>
+                        <CartaPequenniaComponente boton_onPress = {()=>{this._Desbloquear(12)}} boton_activo = {true} boton_mt = {3} boton_mb = {3} boton_filled = {require('../Imagenes/unlock.png')} boton_unfilled = {require('../Imagenes/unlock.png')} boton_width = {40} boton_height = {10} imagen = {require('../Imagenes/user.jpg')} onPress = {()=> {this._onPress(1)}} mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Raquel Mejias" detalle = "Ingenieria Ambiental" ></CartaPequenniaComponente>
+                        <CartaPequenniaComponente boton_onPress = {()=>{this._Desbloquear(12)}} boton_activo = {true} boton_mt = {3} boton_mb = {3} boton_filled = {require('../Imagenes/unlock.png')} boton_unfilled = {require('../Imagenes/unlock.png')} boton_width = {40} boton_height = {10} imagen = {require('../Imagenes/user.jpg')} onPress = {()=> {this._onPress(1)}} mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Alina Rodriguez" detalle = "Funcionario" ></CartaPequenniaComponente>
 
 
                     </ScrollView>
-                    </View>
                 </View>
             </View>
         );    

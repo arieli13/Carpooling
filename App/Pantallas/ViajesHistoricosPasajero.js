@@ -24,15 +24,15 @@ export default class Autenticacion extends Component{
                     <View style = {{flex:5}}>
                     <ScrollView showsVerticalScrollIndicator={false} style = {{flex:1}}>
 
-                        <CartaPequenniaComponente mostrarBoton = {false} color  = {COLORES.ROJO} titulo = "San José - TEC" detalle = "19/10/2017 - 11:30am" imagen = "Mapa"></CartaPequenniaComponente>
-                        <CartaPequenniaComponente mostrarBoton = {false} color  = {COLORES.VERDE} titulo = "TEC - Heredia" detalle = "19/10/2017 - 11:30am" imagen = "Mapa"></CartaPequenniaComponente>
-                        <CartaPequenniaComponente mostrarBoton = {false} color  = {COLORES.ROJO} titulo = "San José - TEC" detalle = "19/10/2017 - 11:30am" imagen = "Mapa"></CartaPequenniaComponente>
-                        <CartaPequenniaComponente mostrarBoton = {false} color  = {COLORES.VERDE} titulo = "TEC - Heredia" detalle = "19/10/2017 - 11:30am" imagen = "Mapa"></CartaPequenniaComponente>
-                        <CartaPequenniaComponente mostrarBoton = {false} color  = {COLORES.ROJO} titulo = "San José - TEC" detalle = "19/10/2017 - 11:30am" imagen = "Mapa"></CartaPequenniaComponente>
-                        <CartaPequenniaComponente mostrarBoton = {false} color  = {COLORES.VERDE} titulo = "TEC - Heredia" detalle = "19/10/2017 - 11:30am" imagen = "Mapa"></CartaPequenniaComponente>
-                        <CartaPequenniaComponente mostrarBoton = {false} color  = {COLORES.ROJO} titulo = "San José - TEC" detalle = "19/10/2017 - 11:30am" imagen = "Mapa"></CartaPequenniaComponente>
-                        <CartaPequenniaComponente mostrarBoton = {false} color  = {COLORES.VERDE} titulo = "TEC - Heredia" detalle = "19/10/2017 - 11:30am" imagen = "Mapa"></CartaPequenniaComponente>
-                        <CartaPequenniaComponente mostrarBoton = {false} color  = {COLORES.ROJO} titulo = "San José - TEC" detalle = "19/10/2017 - 11:30am" imagen = "Mapa"></CartaPequenniaComponente>
+                        <CartaPequenniaComponente imagen = {require('../Imagenes/map.png')} mostrarBoton = {false} color  = {COLORES.ROJO} titulo = "San José - TEC" detalle = "19/10/2017 - 11:30am" ></CartaPequenniaComponente>
+                        <CartaPequenniaComponente imagen = {require('../Imagenes/map.png')} mostrarBoton = {false} color  = {COLORES.VERDE} titulo = "TEC - Heredia" detalle = "19/10/2017 - 11:30am" ></CartaPequenniaComponente>
+                        <CartaPequenniaComponente imagen = {require('../Imagenes/map.png')} mostrarBoton = {false} color  = {COLORES.ROJO} titulo = "San José - TEC" detalle = "19/10/2017 - 11:30am" ></CartaPequenniaComponente>
+                        <CartaPequenniaComponente imagen = {require('../Imagenes/map.png')} mostrarBoton = {false} color  = {COLORES.VERDE} titulo = "TEC - Heredia" detalle = "19/10/2017 - 11:30am" ></CartaPequenniaComponente>
+                        <CartaPequenniaComponente imagen = {require('../Imagenes/map.png')} mostrarBoton = {false} color  = {COLORES.ROJO} titulo = "San José - TEC" detalle = "19/10/2017 - 11:30am" ></CartaPequenniaComponente>
+                        <CartaPequenniaComponente imagen = {require('../Imagenes/map.png')} mostrarBoton = {false} color  = {COLORES.VERDE} titulo = "TEC - Heredia" detalle = "19/10/2017 - 11:30am" ></CartaPequenniaComponente>
+                        <CartaPequenniaComponente imagen = {require('../Imagenes/map.png')} mostrarBoton = {false} color  = {COLORES.ROJO} titulo = "San José - TEC" detalle = "19/10/2017 - 11:30am" ></CartaPequenniaComponente>
+                        <CartaPequenniaComponente imagen = {require('../Imagenes/map.png')} mostrarBoton = {false} color  = {COLORES.VERDE} titulo = "TEC - Heredia" detalle = "19/10/2017 - 11:30am" ></CartaPequenniaComponente>
+                        <CartaPequenniaComponente imagen = {require('../Imagenes/map.png')} mostrarBoton = {false} color  = {COLORES.ROJO} titulo = "San José - TEC" detalle = "19/10/2017 - 11:30am" ></CartaPequenniaComponente>
 
                     </ScrollView>
                     </View>

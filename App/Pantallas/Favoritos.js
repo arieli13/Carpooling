@@ -13,32 +13,23 @@ export default class Favoritos extends Component{
         header: null
       };
 
-    _onPress(usuario){
+    _EliminarFavorito(usuario){
         Alert.alert("Eliminar favorito");
     }
+
+
 
     render(){
         return(
             <View  style = {{flex:1, backgroundColor: COLORES.BACKGROUND}}>
                 <HeaderComponente nombre = "Favoritos"></HeaderComponente>
-                <View style = {{flex:1, marginLeft:30, marginRight:30}}>
-                    <View style = {{flex:1}}>
-                        <TextInput style = {{ borderColor : COLORES.AZUL}} placeholder = "Buscar" selectionColor = {COLORES.AZUL} placeholderTextColor = {COLORES.AZUL} underlineColorAndroid = {COLORES.AZUL} ></TextInput>
-                    </View>
-                    <View style = {{flex:5}}>
+                <View style = {{flex:1, marginLeft:30, marginRight:30, marginTop:30, marginBottom:30}}>
                     <ScrollView showsVerticalScrollIndicator={false} style = {{flex:1}}>
                         <TouchableOpacity style = {{flex:1}} onPress = {()=>  {this.props.navigation.navigate('Perfil') }}>
-                            <CartaPequenniaComponente onPress = {()=> {this._onPress(1)}} mostrarBoton = {true} color  = {COLORES.ROJO} titulo = "Ariel Rodriguez" detalle = "Ingenieria en Computacion" imagen = "Persona"></CartaPequenniaComponente>
+                            <CartaPequenniaComponente boton_onPress = {()=>{this._EliminarFavorito(12)}} boton_activo = {true} boton_mt = {3} boton_mb = {3} boton_mr = {3} boton_filled = {require('../Imagenes/heart_filled.png')} boton_unfilled = {require('../Imagenes/heart_filled.png')} boton_width = {30} boton_height = {10} imagen = {require('../Imagenes/user.jpg')} onPress = {()=> {this._onPress(1)}} mostrarBoton = {true} color  = {COLORES.ROJO} titulo = "Ariel Rodriguez" detalle = "Ingenieria en Computacion" ></CartaPequenniaComponente>
                         </TouchableOpacity>
-                        <CartaPequenniaComponente onPress = {()=> {this._onPress(1)}} mostrarBoton = {true} color  = {COLORES.ROJO} titulo = "Pablo Navarro" detalle = "Ingenieria en Computacion" imagen = "Persona"></CartaPequenniaComponente>
-                        <CartaPequenniaComponente onPress = {()=> {this._onPress(1)}} mostrarBoton = {true} color  = {COLORES.ROJO} titulo = "Eros Hernandez" detalle = "Ingenieria en Computacion" imagen = "Persona"></CartaPequenniaComponente>
-                        <CartaPequenniaComponente onPress = {()=> {this._onPress(1)}} mostrarBoton = {true} color  = {COLORES.ROJO} titulo = "Esteban Arias" detalle = "Funcionario" imagen = "Persona"></CartaPequenniaComponente>
-                        <CartaPequenniaComponente onPress = {()=> {this._onPress(1)}} mostrarBoton = {true} color  = {COLORES.ROJO} titulo = "Raquel Mejias" detalle = "Ingenieria Ambiental" imagen = "Persona"></CartaPequenniaComponente>
-                        <CartaPequenniaComponente onPress = {()=> {this._onPress(1)}} mostrarBoton = {true} color  = {COLORES.ROJO} titulo = "Alina Rodriguez" detalle = "Funcionario" imagen = "Persona"></CartaPequenniaComponente>
-
 
                     </ScrollView>
-                    </View>
                 </View>
             </View>
         );    
