@@ -17,7 +17,7 @@ import ModificarVehiculo from './App/Pantallas/ModificarVehiculo';
 /////////
 
 export default X = StackNavigator({
-    'Home': { screen: ViajesPendientes },
+    'Home': { screen: Autenticacion },
     'EscogerUsuario': {screen: EscogerUsuario},
 
 

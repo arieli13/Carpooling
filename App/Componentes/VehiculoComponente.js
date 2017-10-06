@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import {View, ScrollView, Image, Text, TextInput} from 'react-native';
 
-import Rating from 'react-native-rating'
-import { Easing } from 'react-native'
-
 ESTANDARES = require('../estandares');
 COLORES=ESTANDARES.COLORES;
 TIPOGRAFIAS = ESTANDARES.TIPOGRAFIAS;
