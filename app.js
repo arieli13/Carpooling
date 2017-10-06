@@ -14,7 +14,7 @@ import Perfil from './App/Pantallas/Perfil';
 /////////
 
 export default X = StackNavigator({
-    'Home': { screen: Perfil },
+    'Home': { screen: Autenticacion },
     'EscogerUsuario': {screen: EscogerUsuario},
 
 

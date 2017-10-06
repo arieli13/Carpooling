@@ -11,6 +11,7 @@
     "react-native": "0.48.4",
     "react-native-material-cards": "^1.0.6",
     "react-native-material-textfield": "^0.10.0",
+    "react-native-rating": "^2.0.4",
     "react-navigation": "^1.0.0-beta.13"
   },
   "devDependencies": {

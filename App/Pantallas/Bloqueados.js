@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {View, ScrollView, Text, TextInput } from 'react-native';
+import {View, ScrollView, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 import HeaderComponente from '../Componentes/HeaderComponente';
@@ -20,6 +20,10 @@ export default class Autenticacion extends Component{
         header: null
       };
 
+    _onPress(usuario){
+        Alert.alert("Eliminar usuario");
+    }
+
     render(){
         return(
             <View  style = {{flex:1, backgroundColor: COLORES.BACKGROUND}}>
@@ -30,14 +34,12 @@ export default class Autenticacion extends Component{
                     </View>
                     <View style = {{flex:5}}>
                     <ScrollView showsVerticalScrollIndicator={false} style = {{flex:1}}>
-
-
-                        <CartaPequenniaComponente mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Ariel Rodriguez" detalle = "Ingenieria en Computacion" imagen = "Persona"></CartaPequenniaComponente>
-                        <CartaPequenniaComponente mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Pablo Navarro" detalle = "Ingenieria en Computacion" imagen = "Persona"></CartaPequenniaComponente>
-                        <CartaPequenniaComponente mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Eros Hernandez" detalle = "Ingenieria en Computacion" imagen = "Persona"></CartaPequenniaComponente>
-                        <CartaPequenniaComponente mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Esteban Arias" detalle = "Funcionario" imagen = "Persona"></CartaPequenniaComponente>
-                        <CartaPequenniaComponente mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Raquel Mejias" detalle = "Ingenieria Ambiental" imagen = "Persona"></CartaPequenniaComponente>
-                        <CartaPequenniaComponente mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Alina Rodriguez" detalle = "Funcionario" imagen = "Persona"></CartaPequenniaComponente>
+                        <CartaPequenniaComponente onPress = {()=> {this._onPress(1)}} mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Ariel Rodriguez" detalle = "Ingenieria en Computacion" imagen = "Persona"></CartaPequenniaComponente>
+                        <CartaPequenniaComponente onPress = {()=> {this._onPress(1)}} mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Pablo Navarro" detalle = "Ingenieria en Computacion" imagen = "Persona"></CartaPequenniaComponente>
+                        <CartaPequenniaComponente onPress = {()=> {this._onPress(1)}} mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Eros Hernandez" detalle = "Ingenieria en Computacion" imagen = "Persona"></CartaPequenniaComponente>
+                        <CartaPequenniaComponente onPress = {()=> {this._onPress(1)}} mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Esteban Arias" detalle = "Funcionario" imagen = "Persona"></CartaPequenniaComponente>
+                        <CartaPequenniaComponente onPress = {()=> {this._onPress(1)}} mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Raquel Mejias" detalle = "Ingenieria Ambiental" imagen = "Persona"></CartaPequenniaComponente>
+                        <CartaPequenniaComponente onPress = {()=> {this._onPress(1)}} mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = "Alina Rodriguez" detalle = "Funcionario" imagen = "Persona"></CartaPequenniaComponente>
 
 
                     </ScrollView>

@@ -5,6 +5,11 @@ COLORES=ESTANDARES.COLORES;
 TIPOGRAFIAS = ESTANDARES.TIPOGRAFIAS;
 
 export default class CartaPequenniaComponente extends Component{
+
+    _onPress(){
+        this.props.onPress();
+    }
+
     render(){
         var imagenes = {
             'Persona':require('../Imagenes/user.jpg'),
@@ -17,7 +22,7 @@ export default class CartaPequenniaComponente extends Component{
                             <Text>{this.props.detalle}</Text>
                         </View>
                         <View style = {{flex:1, alignItems: "center", justifyContent: "center"}}>
-                            <Button onPress = { () => {}} color = {this.props.color} title = "X" style = {{flex: 1}}></Button>
+                            <Button onPress = { () => {this._onPress()}} color = {this.props.color} title = "X" style = {{flex: 1}}></Button>
                         </View>
                     </View>;
         }else{

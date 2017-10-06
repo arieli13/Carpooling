@@ -15,7 +15,7 @@ export default class EscogerUsuario extends Component{
         return(
             <View View style = {{flex:1, backgroundColor: COLORES.BACKGROUND}}>
                 <HeaderComponente nombre = "Tipo de Usuario"></HeaderComponente>
-                <EscogerUsuarioComponente></EscogerUsuarioComponente>
+                <EscogerUsuarioComponente navigation= {this.props.navigation}></EscogerUsuarioComponente>
             </View>
         );    
     }

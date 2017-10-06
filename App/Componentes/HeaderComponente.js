@@ -19,7 +19,7 @@ export default class HeaderComponente extends Component{
 const estilosHeader = StyleSheet.create({
     header:{
         borderBottomWidth: 3,
-        borderBottomColor: COLORES.GRIS_CLARO,
+        borderBottomColor: COLORES.GRIS_MEDIO,
         backgroundColor: COLORES.BACKGROUND,
         marginBottom: 16,
         minHeight: 71,

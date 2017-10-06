@@ -7,8 +7,13 @@ TIPOGRAFIAS = ESTANDARES.TIPOGRAFIAS;
 
 export default class EscogerUsuarioComponente extends Component {
 
-    _onPressImage(){
-        Alert.alert(":o", "Imagen presionada");
+    _onPressImage(tipo){
+        if(tipo){
+            Alert.alert("Hola", "Hola");
+        }else{
+            const { navigate } = this.props.navigation;
+            navigate('MenuPrincipalPasajero');
+        }
     }
 
     render() {
@@ -16,14 +21,14 @@ export default class EscogerUsuarioComponente extends Component {
         <View style = {{flex: 1,  flexDirection: 'column', justifyContent: 'space-around', alignItems: "center"}}>
 
             <View style = {{alignItems: "center"}}>
-            <TouchableOpacity  onPress={() => this._onPressImage()} style = {{width: 150, height: 150, borderRadius: 150/2}}>
+            <TouchableOpacity  onPress={() => this._onPressImage(1)} style = {{width: 150, height: 150, borderRadius: 150/2}}>
                 <Image  style = {estilos.circle} source={require('../Imagenes/driver.jpg')} />
             </TouchableOpacity >
             <Text style = {estilos.text}>Conductor</Text>
             </View>
 
             <View style = {{alignItems: "center"}}>
-            <TouchableOpacity  onPress={() => this._onPressImage()} style = {{width: 150, height: 150, borderRadius: 150/2}}>
+            <TouchableOpacity  onPress={() => this._onPressImage(0)} style = {{width: 150, height: 150, borderRadius: 150/2}}>
                 <Image style = {estilos.circle} source={require('../Imagenes/passenger.png')} />
             </TouchableOpacity >
             <Text style = {estilos.text}>Pasajero</Text>
