@@ -14,12 +14,13 @@ import Perfil from './App/Pantallas/Perfil';
 import MenuPrincipalConductor from './App/Pantallas/MenuPrincipalConductor';
 import Vehiculos from './App/Pantallas/Vehiculos';
 import ModificarVehiculo from './App/Pantallas/ModificarVehiculo';
+import Buscar from './App/Pantallas/Buscar';
 
 
 /////////
 
 export default X = StackNavigator({
-    'Home': { screen: Autenticacion },
+    'Home': { screen: Buscar },
     'EscogerUsuario': {screen: EscogerUsuario},
 
 
@@ -32,7 +33,8 @@ export default X = StackNavigator({
 
     'MenuPrincipalConductor':{screen:MenuPrincipalConductor},
     'Vehiculos':{screen:Vehiculos},
-    'ModificarVehiculo':{screen:ModificarVehiculo}
+    'ModificarVehiculo':{screen:ModificarVehiculo},
+    'Buscar':{screen:Buscar}
   });
 
 

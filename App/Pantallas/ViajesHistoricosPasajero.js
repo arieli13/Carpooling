@@ -9,7 +9,7 @@ import CartaPequenniaComponente from '../Componentes/CartaPequenniaComponente';
 ESTANDARES = require('../estandares');
 COLORES=ESTANDARES.COLORES;
 
-export default class Autenticacion extends Component{
+export default class ViajesHistoricosPasajero extends Component{
     static navigationOptions = {
         header: null
       };

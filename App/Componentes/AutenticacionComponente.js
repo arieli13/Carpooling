@@ -21,7 +21,7 @@ export default class AutenticacionComponente extends Component{
 
     async _Ingresar(){
         try{
-            let usuario = this.state.usuario;
+            /*let usuario = this.state.usuario;
             let contrasennia = this.state.contrasennia;
             this.setState({conectando:true});
             
@@ -29,7 +29,7 @@ export default class AutenticacionComponente extends Component{
 
             var datos = respuesta.perfil;
             Usuario.iniciarSesion(datos.id, datos.tipo, datos.nombre_usuario, datos.nombre, datos.apellido, datos.telefono, datos.correo, datos.area);
-            this.setState({conectando:false});
+            this.setState({conectando:false});*/
             const { navigate } = this.props.navigation;
             navigate('EscogerUsuario');
            

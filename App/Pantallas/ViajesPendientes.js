@@ -10,7 +10,7 @@ ESTANDARES = require('../estandares');
 COLORES=ESTANDARES.COLORES;
 TIPOGRAFIAS = ESTANDARES.TIPOGRAFIAS;
 
-export default class Autenticacion extends Component{
+export default class ViajesPendientes extends Component{
     static navigationOptions = {
         header: null
       };

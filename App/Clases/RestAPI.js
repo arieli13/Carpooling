@@ -29,7 +29,7 @@ export default class RestAPI{
             })
             .catch((response) => response.json())
             .catch((error) => {
-                reject( {error:JSON.stringify(error, null, 2)});
+                reject( {error:"No se pudo conectar con el servidor"});
             });
         });
     }
