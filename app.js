@@ -18,9 +18,9 @@ import Buscar from './App/Pantallas/Buscar';
 
 
 /////////
-
+import Mapa from './App/Pantallas/Mapa';
 export default X = StackNavigator({
-    'Home': { screen: Buscar },
+    'Home': { screen: Mapa },
     'EscogerUsuario': {screen: EscogerUsuario},
 
 
