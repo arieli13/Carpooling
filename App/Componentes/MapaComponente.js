@@ -256,13 +256,53 @@ export default class MapaComponente extends Component{
                         pinColor = {this.props.color_reunion}
                         draggable
                         onDragEnd = {(evento)=>{this._modificarReunion(evento, dato.key)}}
+                        description = {dato.descripcion}
+                        title = "Punto reunión"
+                    >
+                    <MapView.Callout  onPress = {()=>{this._modificarNombreReunion(dato.key)}}/>
+                    </MapView.Marker>;
+        })});
+        this._actualizar();
+    }
+
+    async _modificarNombreReunion(key){
+        Alert.alert(
+            '¿Qué desea hacer?',
+            '¿Desea eliminar o modificar el nombre del punto?',
+            [
+              {text: 'Eliminar', onPress: () => {this._eliminarReunionAux(key)}},
+              {text: 'Modificar', onPress: () => {}}
+            ]
+          );
+        /*var reuniones = this.state.reuniones;
+        for(var i = 0; i<reuniones.length;i++){
+            if(reuniones[i].key == key){
+                
+                reuniones[i].descripcion = "Lol";
+                break;
+            }
+        }
+        this.setState({reuniones:reuniones});
+        this.setState({reunionesComponentes: reuniones.map( (dato, index)=>  {
+            return  <MapView.Marker 
+                        key = {dato.key}
+                        coordinate={ 
+                            {
+                                latitude: dato.latitud,
+                                longitude: dato.longitud
+                            }
+                        }
+                        pinColor = {this.props.color_reunion}
+                        draggable
+                        onDragEnd = {(evento)=>{this._modificarReunion(evento, dato.key)}}
                         onPress = { () => {this._eliminarReunion(dato.key)} }
                         description = {dato.descripcion}
                         title = "Punto reunión"
                     >
+                    <MapView.Callout  onPress = {()=>{this._modificarNombreReunion(dato.key)}}/>
                     </MapView.Marker>;
         })});
-        this._actualizar();
+        this._actualizar();*/
     }
 
     async _modificarDestino(evento){
@@ -340,21 +380,12 @@ export default class MapaComponente extends Component{
                        pinColor = {this.props.color_reunion}
                        draggable
                        onDragEnd = {(evento)=>{this._modificarReunion(evento, dato.key)}}
-                       onPress = { () => {this._eliminarReunion(dato.key)} }
+                       
                    >
+                   <MapView.Callout  onPress = {()=>{this._modificarNombreReunion(dato.key)}}/>
                    </MapView.Marker>;
        })});
        this._actualizar();
-    }
-    _eliminarReunion(key){
-        Alert.alert(
-            'Eliminar reunión',
-            '¿Desea eliminar el punto de reunión?',
-            [
-              {text: 'Eliminar', onPress: () => {this._eliminarReunionAux(key)}},
-              {text: 'Cancelar', onPress: () => {}}
-            ]
-          );
     }
       
       
