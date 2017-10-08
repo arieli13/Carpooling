@@ -9,7 +9,10 @@ module.exports = {
         BACKGROUND: '#E0E0E0',//'#F8F9FA',
         ROJO: '#bf0000',
         NEGRO: 'black',
-        BLANCO: 'white'
+        BLANCO: 'white',
+
+        TEXTO: 'black',
+        TITULO: '#1F2F5F'
     },
     TIPOGRAFIAS:{
         TITULO: "Helvetica",

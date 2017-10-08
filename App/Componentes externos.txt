@@ -2,3 +2,4 @@ https://www.npmjs.com/package/react-native-pull-to-refresh -- Para pull down (Ac
 https://www.npmjs.com/package/react-native-rating -- Para las estrellas del perfil y calificar
 https://www.npmjs.com/package/react-native-material-textfield -- Para el textInput de la autenticación
 https://www.npmjs.com/package/react-native-maps --Para mostrar los mapas, revisar instalación en IOS
+https://www.npmjs.com/package/react-native-datepicker --Para fecha y hora

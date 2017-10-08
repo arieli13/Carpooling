@@ -15,7 +15,11 @@ export default class GWS{
                 var datos = responseJson._bodyInit;
                 datos = JSON.parse(datos);
                 datos = datos.results[0].formatted_address.split(",").slice(0, -1).join();
-                resolve( datos );
+                datos = datos.split(",");
+                if(datos.length>=2){
+                    resolve( datos[0]+","+datos[1] )
+                }
+                resolve( datos[0] );
             })
             .catch(error => {
                 resolve( 'N/A' );
