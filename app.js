@@ -18,9 +18,9 @@ import Buscar from './App/Pantallas/Buscar';
 
 
 /////////
-import Mapa from './App/Pantallas/Mapa';
+import CrearViaje from './App/Pantallas/CrearViaje';
 export default X = StackNavigator({
-    'Home': { screen: Mapa },
+    'Home': { screen: CrearViaje },
     'EscogerUsuario': {screen: EscogerUsuario},
 
 
@@ -34,7 +34,8 @@ export default X = StackNavigator({
     'MenuPrincipalConductor':{screen:MenuPrincipalConductor},
     'Vehiculos':{screen:Vehiculos},
     'ModificarVehiculo':{screen:ModificarVehiculo},
-    'Buscar':{screen:Buscar}
+    'Buscar':{screen:Buscar},
+    'CrearViaje':{screen: CrearViaje}
   });
 
 

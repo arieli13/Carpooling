@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { AppRegistry, TouchableOpacity, Icon, View, StyleSheet, Image, Alert, Text} from 'react-native';
+import { AppRegistry, TouchableOpacity, Icon, View, StyleSheet, Image, Alert, Text, Button, TextInput} from 'react-native';
 import MapView from 'react-native-maps';
 import BotonComponente from './BotonComponente';
+import PopupDialog from 'react-native-popup-dialog';
 
 import GWS from '../Clases/GoogleWebService'
 
@@ -27,130 +28,11 @@ export default class MapaComponente extends Component{
             puntoDestino: this.props.puntoDestino,
             puntoInicio: this.props.puntoInicio,
 
-            puntoInicioComponente: [],
-            puntoDestinoComponente: [],
-            reunionesComponentes:[],
-
-            key:0
+            nuevoNombre:"", //Esto es para cuando se quiere cambiar el nombre de algún punto
+            markerNuevoNombre : 0, //Indice si el nombre se le cambia a un inicio(0), destino (1) o reunion(2)
+            indiceNuevoNombre: 0 //En caso de que markerNuevoNombre sea 2, este indica cual es el indice del elemento en el array de reuniones
         }
-        if(!this.props.informativo){
-            if(this.state.puntoDestino!=null){
-                this.state.puntoDestinoComponente = <MapView.Marker 
-                                                        key = {this.state.key}
-                                                        coordinate={ 
-                                                            {
-                                                                latitude: this.state.puntoDestino.latitud,
-                                                                longitude: this.state.puntoDestino.longitud
-                                                            }
-                                                        }
-                                                        pinColor = {this.props.color_destino}
-                                                        draggable
-                                                        onDragEnd = {(evento)=>{this._modificarDestino(evento)}}
-                                                        title = "Punto de destino"
-                                                        description = {this.state.puntoDestino.descripcion}
-                                                    >
-                                                    </MapView.Marker>;
-                this.state.key = this.state.key+1;
-            }
-            if(this.state.puntoInicio!=null){
-                this.state.puntoInicioComponente = <MapView.Marker 
-                                                        key = {this.state.key}
-                                                        coordinate={ 
-                                                            {
-                                                                latitude: this.state.puntoInicio.latitud,
-                                                                longitude: this.state.puntoInicio.longitud
-                                                            }
-                                                        }
-                                                        pinColor = {this.props.color_inicio}
-                                                        draggable
-                                                        onDragEnd = {(evento)=>{this._modificarInicio(evento)}}
-                                                        title = "Punto de inicio"
-                                                        description = {this.state.puntoInicio.descripcion}
-                                                    >
-                                                    </MapView.Marker>;
-                this.state.key = this.state.key+1;
 
-            }
-            if(this.state.reuniones!=null){
-                for(var i = 0; i<this.state.reuniones.length;i++){
-                    this.state.reuniones[i].key = this.state.key;
-                    this.state.key = this.state.key+1;
-                }
-                this.state.reunionesComponentes = this.state.reuniones.map((dato, index)=>{
-                    return  <MapView.Marker 
-                                key = {dato.key}
-                                coordinate={ 
-                                    {
-                                        latitude: dato.latitud,
-                                        longitude: dato.longitud
-                                    }
-                                }
-                                pinColor = {this.props.color_reunion}
-                                draggable
-                                onDragEnd = {(evento)=>{this._modificarReunion(evento, dato.key)}}
-                                onPress = { () => {this._eliminarReunion(dato.key)} }
-                                title = "Punto reunión"
-                                description = {dato.descripcion}
-                            >
-                            </MapView.Marker>;
-                });
-            }
-        }else{
-            if(this.state.puntoDestino!=null){
-                this.state.puntoDestinoComponente = <MapView.Marker 
-                                                        key = {this.state.key}
-                                                        coordinate={ 
-                                                            {
-                                                                latitude: this.state.puntoDestino.latitud,
-                                                                longitude: this.state.puntoDestino.longitud
-                                                            }
-                                                        }
-                                                        pinColor = {this.props.color_destino}
-                                                        title = "Punto de destino"
-                                                        description = {this.state.puntoDestino.descripcion}
-                                                    >
-                                                    </MapView.Marker>;
-                this.state.key = this.state.key+1;
-            }
-            if(this.state.puntoInicio!=null){
-                this.state.puntoInicioComponente = <MapView.Marker 
-                                                        key = {this.state.key}
-                                                        coordinate={ 
-                                                            {
-                                                                latitude: this.state.puntoInicio.latitud,
-                                                                longitude: this.state.puntoInicio.longitud
-                                                            }
-                                                        }
-                                                        pinColor = {this.props.color_inicio}
-                                                       title = "Punto de inicio"
-                                                        description = {this.state.puntoInicio.descripcion}
-                                                    >
-                                                    </MapView.Marker>;
-                this.state.key = this.state.key+1;
-
-            }
-            if(this.state.reuniones!=[]){
-                for(var i = 0; i<this.state.reuniones.length;i++){
-                    this.state.reuniones[i].key = this.state.key;
-                    this.state.key = this.state.key+1;
-                }
-                this.state.reunionesComponentes = this.state.reuniones.map((dato, index)=>{
-                    return  <MapView.Marker 
-                                key = {dato.key}
-                                coordinate={ 
-                                    {
-                                        latitude: dato.latitud,
-                                        longitude: dato.longitud
-                                    }
-                                }
-                                pinColor = {this.props.color_reunion}
-                                title = "Punto reunión"
-                                description = {dato.descripcion}
-                            >
-                            </MapView.Marker>;
-                });
-            }
-        }
     }
 
     async _actualizar(){
@@ -158,59 +40,17 @@ export default class MapaComponente extends Component{
     }
 
     async _annadirDestino(puntoDestinoAux){
-        var keyAux = this.state.key;
-
-        this.setState((prevState, props) => {
-            return { key: prevState.key+1 }
-          });
         puntoDestinoAux.descripcion = await GWS.obtenerNombre( puntoDestinoAux.latitud, puntoDestinoAux.longitud );
         this.setState({puntoDestino: puntoDestinoAux });
-        this.setState({ puntoDestinoComponente: 
-            <MapView.Marker 
-                key = {keyAux}
-                coordinate={ 
-                    {
-                        latitude: puntoDestinoAux.latitud,
-                        longitude: puntoDestinoAux.longitud
-                    }
-                }
-                pinColor = {this.props.color_destino}
-                draggable
-                onDragEnd = {(evento)=>{this._modificarDestino(evento)}}
-                description = {puntoDestinoAux.descripcion}
-                title = "Punto destino"
-            >
-            </MapView.Marker>
-        });
         this._actualizar();
     }
-    async _annadirInicio(puntoInicioAux){
-        var keyAux = this.state.key;
 
-        this.setState((prevState, props) => {
-            return { key: prevState.key+1 }
-          });
+    async _annadirInicio(puntoInicioAux){
         puntoInicioAux.descripcion = await GWS.obtenerNombre( puntoInicioAux.latitud, puntoInicioAux.longitud );
         this.setState({puntoInicio: puntoInicioAux });
-        this.setState({ puntoInicioComponente: 
-            <MapView.Marker 
-                key = {keyAux}
-                coordinate={ 
-                    {
-                        latitude: puntoInicioAux.latitud,
-                        longitude: puntoInicioAux.longitud
-                    }
-                }
-                pinColor = {this.props.color_inicio}
-                draggable
-                onDragEnd = {(evento)=>{this._modificarInicio(evento)}}
-                description = {puntoInicioAux.descripcion}
-                title = "Punto inicio"
-            >
-            </MapView.Marker>
-        });
         this._actualizar();
     }
+
     async _annadirPunto(evento){
             var coordenada = {
                 latitud:evento.nativeEvent.coordinate.latitude,
@@ -233,79 +73,48 @@ export default class MapaComponente extends Component{
             latitud:evento.nativeEvent.coordinate.latitude,
             longitud: evento.nativeEvent.coordinate.longitude
         }
-        var descripcionAux = await GWS.obtenerNombre( coordenada.latitud, coordenada.longitud );
-         var aux = { latitud: coordenada.latitud, longitud:coordenada.longitud, key:this.state.key, descripcion: descripcionAux};
-         this.setState((prevState, props) => {
-            return { key: prevState.key+1 }
-          });
-         var reunionesAux = []; 
-         for(var i = 0; i<this.state.reuniones.length;i++){
-            reunionesAux.push( this.state.reuniones[i] )
-        }
-        reunionesAux.push(aux);
-        this.setState({ reuniones: reunionesAux });
-        this.setState({reunionesComponentes: reunionesAux.map( (dato, index)=>  {
-            return  <MapView.Marker 
-                        key = {dato.key}
-                        coordinate={ 
-                            {
-                                latitude: dato.latitud,
-                                longitude: dato.longitud
-                            }
-                        }
-                        pinColor = {this.props.color_reunion}
-                        draggable
-                        onDragEnd = {(evento)=>{this._modificarReunion(evento, dato.key)}}
-                        description = {dato.descripcion}
-                        title = "Punto reunión"
-                    >
-                    <MapView.Callout  onPress = {()=>{this._modificarNombreReunion(dato.key)}}/>
-                    </MapView.Marker>;
-        })});
+        var descripcion = await GWS.obtenerNombre( coordenada.latitud, coordenada.longitud );
+        var aux = { latitud: coordenada.latitud, longitud:coordenada.longitud, descripcion: descripcion};
+        var reuniones = this.state.reuniones;
+        reuniones.push(aux);
+        this.setState({ reuniones: reuniones });
         this._actualizar();
     }
 
-    async _modificarNombreReunion(key){
-        Alert.alert(
-            '¿Qué desea hacer?',
-            '¿Desea eliminar o modificar el nombre del punto?',
-            [
-              {text: 'Eliminar', onPress: () => {this._eliminarReunionAux(key)}},
-              {text: 'Modificar', onPress: () => {}}
-            ]
-          );
-        /*var reuniones = this.state.reuniones;
-        for(var i = 0; i<reuniones.length;i++){
-            if(reuniones[i].key == key){
-                
-                reuniones[i].descripcion = "Lol";
-                break;
-            }
+    async _modificarNombre(){
+        var nuevoNombre = this.state.nuevoNombre;
+        if(nuevoNombre == ""){
+            return;
         }
-        this.setState({reuniones:reuniones});
-        this.setState({reunionesComponentes: reuniones.map( (dato, index)=>  {
-            return  <MapView.Marker 
-                        key = {dato.key}
-                        coordinate={ 
-                            {
-                                latitude: dato.latitud,
-                                longitude: dato.longitud
-                            }
-                        }
-                        pinColor = {this.props.color_reunion}
-                        draggable
-                        onDragEnd = {(evento)=>{this._modificarReunion(evento, dato.key)}}
-                        onPress = { () => {this._eliminarReunion(dato.key)} }
-                        description = {dato.descripcion}
-                        title = "Punto reunión"
-                    >
-                    <MapView.Callout  onPress = {()=>{this._modificarNombreReunion(dato.key)}}/>
-                    </MapView.Marker>;
-        })});
-        this._actualizar();*/
+        this.setState({nuevoNombre:""});
+        var puntoAux;
+        switch(this.state.markerNuevoNombre){
+            case 0:
+                puntoAux = this.state.puntoInicio;
+                puntoAux.descripcion = nuevoNombre;
+                this.setState({puntoInicio:puntoAux});
+                this._actualizar();
+                break;
+            case 1:
+                puntoAux = this.state.puntoDestino;
+                puntoAux.descripcion = nuevoNombre;
+                this.setState({puntoDestino:puntoAux});
+                this._actualizar();
+                break;
+            case 2:
+                var puntos = this.state.reuniones;
+                puntoAux = puntos[this.state.indiceNuevoNombre];
+                puntoAux.descripcion = nuevoNombre;
+                puntos[this.state.indiceNuevoNombre] = puntoAux;
+                this.setState({reuniones:puntos});
+                this._actualizar();
+                break;
+            default:
+                
+        }
     }
 
-    async _modificarDestino(evento){
+    async _modificarDestinoCoordenada(evento){
         var coordenada = {
             latitud:evento.nativeEvent.coordinate.latitude,
             longitud: evento.nativeEvent.coordinate.longitude
@@ -314,7 +123,7 @@ export default class MapaComponente extends Component{
         this._annadirDestino(aux);
     }
 
-    async _modificarInicio(evento){
+    async _modificarInicioCoordenada(evento){
         var coordenada = {
             latitud:evento.nativeEvent.coordinate.latitude,
             longitud: evento.nativeEvent.coordinate.longitude
@@ -323,72 +132,49 @@ export default class MapaComponente extends Component{
         this._annadirInicio(aux);
     }
 
-    async _modificarReunion(evento, key){
+    async _modificarReunionCoordenada(evento, indice){
         var coordenada = {
             latitud:evento.nativeEvent.coordinate.latitude,
             longitud: evento.nativeEvent.coordinate.longitude
         }
         var reuniones = this.state.reuniones;
-        for(var i = 0; i<reuniones.length;i++){
-            if(reuniones[i].key == key){
-                reuniones[i].latitud = coordenada.latitud;
-                reuniones[i].longitud = coordenada.longitud;
-                reuniones[i].descripcion = await GWS.obtenerNombre(coordenada.latitud, coordenada.longitud);
-                break;
-            }
-        }
+        reuniones[indice].latitud = coordenada.latitud;
+        reuniones[indice].longitud = coordenada.longitud;
+        reuniones[indice].descripcion = await GWS.obtenerNombre(coordenada.latitud, coordenada.longitud);
+                
         this.setState({reuniones:reuniones});
-        this.setState({reunionesComponentes: reuniones.map( (dato, index)=>  {
-            return  <MapView.Marker 
-                        key = {dato.key}
-                        coordinate={ 
-                            {
-                                latitude: dato.latitud,
-                                longitude: dato.longitud
-                            }
-                        }
-                        pinColor = {this.props.color_reunion}
-                        draggable
-                        onDragEnd = {(evento)=>{this._modificarReunion(evento, dato.key)}}
-                        onPress = { () => {this._eliminarReunion(dato.key)} }
-                        description = {dato.descripcion}
-                        title = "Punto reunión"
-                    >
-                    </MapView.Marker>;
-        })});
         this._actualizar();
     }
 
-    _eliminarReunionAux(key){
+    async _reunionPresionado(indice){
+        await this.setState({markerNuevoNombre: 2, indiceNuevoNombre:indice});
+        Alert.alert(
+            '¿Qué desea hacer?',
+            '¿Desea eliminar o modificar el nombre del punto?',
+            [
+              {text: 'Eliminar', onPress: () => {this._eliminarReunion(indice)}},
+              {text: 'Modificar', onPress: () => {this.popupDialog.show(); }}
+            ]
+        );
+    }
+    async _inicioPresionado(){
+        await this.setState({markerNuevoNombre: 0});
+        this.popupDialog.show();
+    }
+    async _destinoPresionado(){
+        await this.setState({markerNuevoNombre: 1});
+        this.popupDialog.show();
+    }
+    _eliminarReunion(indice){
         var reunionesAux = [];
         for(var i = 0; i<this.state.reuniones.length;i++){
-            if(this.state.reuniones[i].key != key ){
+            if(i != indice ){
                 reunionesAux.push( this.state.reuniones[i] );
             }
        }
        this.setState({ reuniones: reunionesAux });
-       
-       this.setState({reunionesComponentes: reunionesAux.map((dato, index)=>{
-           return  <MapView.Marker 
-                       key = {dato.key}
-                       coordinate={ 
-                           {
-                               latitude: dato.latitud,
-                               longitude: dato.longitud
-                           }
-                       }
-                       pinColor = {this.props.color_reunion}
-                       draggable
-                       onDragEnd = {(evento)=>{this._modificarReunion(evento, dato.key)}}
-                       
-                   >
-                   <MapView.Callout  onPress = {()=>{this._modificarNombreReunion(dato.key)}}/>
-                   </MapView.Marker>;
-       })});
        this._actualizar();
     }
-      
-      
 
       render() {
         var mapa;
@@ -398,23 +184,116 @@ export default class MapaComponente extends Component{
                         followUserLocation={true}
                     >
 
-                    {this.state.puntoInicioComponente}
-                    {this.state.puntoDestinoComponente}
-                    {this.state.reunionesComponentes}
+                    {this.state.puntoInicio!=null?<MapView.Marker 
+                                            key = {-1}
+                                            coordinate={ 
+                                                {
+                                                    latitude: this.state.puntoInicio.latitud,
+                                                    longitude: this.state.puntoInicio.longitud
+                                                }
+                                            }
+                                            pinColor = {this.props.color_inicio}
+                                            description = {this.state.puntoInicio.descripcion}
+                                            title = "Punto inicio"
+                                        >
+                                        </MapView.Marker>:null}
+                    {this.state.puntoDestino!=null?<MapView.Marker 
+                                            key = {-2}
+                                            coordinate={ 
+                                                {
+                                                    latitude: this.state.puntoDestino.latitud,
+                                                    longitude: this.state.puntoDestino.longitud
+                                                }
+                                            }
+                                            pinColor = {this.props.color_destino}
+                                            description = {this.state.puntoDestino.descripcion}
+                                            title = "Punto destino"
+                                        >
+                                        </MapView.Marker>:null}
+
+
+                    {this.state.reuniones.length>0?this.state.reuniones.map((dato, index)=>{
+                                    return  <MapView.Marker 
+                                        key = {index}
+                                        coordinate={ 
+                                            {
+                                                latitude: dato.latitud,
+                                                longitude: dato.longitud
+                                            }
+                                        }
+                                        pinColor = {this.props.color_reunion}
+                                        description = {dato.descripcion}
+                                        title = "Punto reunión"
+                                    >
+                                    </MapView.Marker>;
+
+
+                                    }):null}
 
                     </MapView>
         }else{
             mapa = 
             <View style = {{flex:1}}>
                 <MapView style = {{flex:1}} onPress = {(evento)=>{this._annadirReunion(evento)}} onLongPress = {(evento)=>{this._annadirPunto(evento)}}
-                            
+    
                             showsUserLocation={true}
                             followUserLocation={true}
                         >
 
-                        {this.state.puntoInicioComponente}
-                        {this.state.puntoDestinoComponente}
-                        {this.state.reunionesComponentes}
+                        {this.state.puntoInicio!=null?<MapView.Marker 
+                                                            key = {-1}
+                                                            coordinate={ 
+                                                                {
+                                                                    latitude: this.state.puntoInicio.latitud,
+                                                                    longitude: this.state.puntoInicio.longitud
+                                                                }
+                                                            }
+                                                            pinColor = {this.props.color_inicio}
+                                                            draggable
+                                                            onDragEnd = {(evento)=>{this._modificarInicioCoordenada(evento)}}
+                                                            description = {this.state.puntoInicio.descripcion}
+                                                            title = "Punto inicio"
+                                                        >
+                                                        <MapView.Callout  onPress = {()=>{this._inicioPresionado()}}/>
+                                                        </MapView.Marker>:null}
+                        {this.state.puntoDestino!=null?<MapView.Marker 
+                                                            key = {-2}
+                                                            coordinate={ 
+                                                                {
+                                                                    latitude: this.state.puntoDestino.latitud,
+                                                                    longitude: this.state.puntoDestino.longitud
+                                                                }
+                                                            }
+                                                            pinColor = {this.props.color_destino}
+                                                            draggable
+                                                            onDragEnd = {(evento)=>{this._modificarDestinoCoordenada(evento)}}
+                                                            description = {this.state.puntoDestino.descripcion}
+                                                            title = "Punto destino"
+                                                        >
+                                                            <MapView.Callout  onPress = {()=>{this._destinoPresionado()}}/>
+                                                        </MapView.Marker>:null}
+                        
+                        
+                        {this.state.reuniones.length>0?this.state.reuniones.map((dato, index)=>{
+                            return  <MapView.Marker 
+                                        key = {index}
+                                        coordinate={ 
+                                            {
+                                                latitude: dato.latitud,
+                                                longitude: dato.longitud
+                                            }
+                                        }
+                                        pinColor = {this.props.color_reunion}
+                                        draggable
+                                        onDragEnd = {(evento)=>{this._modificarReunionCoordenada(evento, index)}}
+                                        description = {dato.descripcion}
+                                        title = "Punto reunión"
+                                    >
+                                        <MapView.Callout  onPress = {()=>{this._reunionPresionado(index)}}/>
+                                    </MapView.Marker>;
+                            
+                            
+                            }):null}
 
 
                         </MapView>
@@ -424,6 +303,17 @@ export default class MapaComponente extends Component{
         
         return (
             <View style = {{flex:1}}>
+                        <PopupDialog
+                            ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+                            dialogStyle = {{flex:1, backgroundColor: 'rgba(52, 52, 52, 0.8)', alignSelf:"center" }}
+                        >
+                            <View style = {{marginHorizontal:30}}>
+                                <TextInput value = {this.state.nuevoNombre} onChangeText ={(texto)=>{this.setState({nuevoNombre:texto});}}  ></TextInput>
+                                <Button style = {{flex:1}} color = {COLORES.AZUL} title = "Cambiar" onPress = {()=>{this._modificarNombre();this.popupDialog.dismiss();}}></Button>
+                                <Button style = {{flex:1}} color = {COLORES.ROJO} title = "Cancelar" onPress = {()=>{this.popupDialog.dismiss();}}></Button>
+                            </View>
+                        </PopupDialog>
+
                 {mapa}
             </View>
         );

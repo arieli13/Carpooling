@@ -24,7 +24,7 @@ export default class Bloqueados extends Component{
       constructor(props){
         super(props);
             var usuariosAux = { usuarios: [
-                {id: 13, nombre:"Alina Rodríguez", area: "Funcionario"}, 
+                {id: 13, nombre:"Viviana Rodríguez", area: "Funcionario"}, 
                 {id:14, nombre:"Reggie Barker", area: "Ingeniería en computación",}] }
     
             this.state = {usuarios: usuariosAux.usuarios.map((dato, index)=>{
