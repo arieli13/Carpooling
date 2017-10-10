@@ -20,7 +20,7 @@ import Buscar from './App/Pantallas/Buscar';
 /////////
 import CrearViaje from './App/Pantallas/CrearViaje';
 export default X = StackNavigator({
-    'Home': { screen: CrearViaje },
+    'Home': { screen: Perfil },
     'EscogerUsuario': {screen: EscogerUsuario},
 
 

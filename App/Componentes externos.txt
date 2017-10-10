@@ -4,3 +4,6 @@ https://www.npmjs.com/package/react-native-material-textfield -- Para el textInp
 https://www.npmjs.com/package/react-native-maps --Para mostrar los mapas, revisar instalación en IOS
 https://www.npmjs.com/package/react-native-datepicker --Para fecha y hora
 https://www.npmjs.com/package/react-native-popup-dialog --Para nombre de los marker
+
+
+EL API DE LOS MAPAS DEBE DE SER DEL TEC
