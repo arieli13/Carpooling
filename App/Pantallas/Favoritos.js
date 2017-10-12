@@ -17,24 +17,24 @@ export default class Favoritos extends Component{
     
     constructor(props){
         super(props);
-            this.state = { favoritos: [], ejecutando:false }
-        this._obtenerUsuario();
+            this.state = { favoritos: [], ejecutando:true}
     }
 
-        async _obtenerUsuario(){
-            try {
-                 var usuario = await AsyncStorage.getItem('@nombre_usuario:key');
-                 if (usuario == null){
-                     const { navigate } = this.props.navigation;
-                     navigate('Autenticacion');
-                 }
-                 this.state.usuario = usuario;
-             } catch (error) {
+    async componentWillMount(){
+        try {
+            var usuario = await AsyncStorage.getItem('@nombre_usuario:key');
+            if (usuario == null){
                 const { navigate } = this.props.navigation;
-                navigate('Autenticacion');
-             }
-         
+                navigate('Home');
+            }
+            await this.setState({usuario:usuario});
+            await this._refresh();
+            await this.setState({ejecutando:false});
+        } catch (error) {
+           const { navigate } = this.props.navigation;
+           navigate('Home');
         }
+    }
 
     _eliminarFavorito(usuario){
         Alert.alert("Eliminar", "Eliminar favorito "+String(usuario));
@@ -64,7 +64,7 @@ export default class Favoritos extends Component{
             this.setState({favoritos:respuesta});
         }catch(error){
             if(error.error){
-                Alert.alert("Error", error.error);
+               Alert.alert("Error", error.error);
             }else{
                 Alert.alert("Atención", "Ha ocurrido un error inesperado");
             }

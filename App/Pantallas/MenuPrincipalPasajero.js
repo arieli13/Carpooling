@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, AsyncStorage} from 'react-native';
 import CartaComponente from '../Componentes/CartaComponente';
 import HeaderComponente from '../Componentes/HeaderComponente';
+import { NavigationActions } from 'react-navigation';
 
 ESTANDARES = require('../estandares');
 COLORES=ESTANDARES.COLORES;
@@ -16,9 +17,38 @@ export default class MenuPrincipalPasajero extends Component{
         header: null,
     };
 
+    async componentWillMount(){
+        try {
+            var usuario = await AsyncStorage.getItem('@nombre_usuario:key');
+            if (usuario == null){
+                const { navigate } = this.props.navigation;
+                navigate('Home');
+            }
+            await this.setState({usuario:usuario});
+            await this.setState({ejecutando:false});
+        } catch (error) {
+           const { navigate } = this.props.navigation;
+           navigate('Home');
+        }
+    }
+
     _cambiarPantalla(pantalla){
         const { navigate } = this.props.navigation;
         navigate(pantalla);
+    }
+
+    async _cerrarSesion(){
+        try{
+            await AsyncStorage.removeItem('@nombre_usuario:key');
+            const actionToDispatch = NavigationActions.reset({
+                index: 0,
+                key: null,  
+                actions: [NavigationActions.navigate({ routeName: 'Home' })]
+              })
+              this.props.navigation.dispatch(actionToDispatch)
+        }catch(error){
+            Alert.alert("Error", "No se ha podido cerrar sesión");
+        }        
     }
 
     render(){
@@ -50,8 +80,8 @@ export default class MenuPrincipalPasajero extends Component{
                             <TouchableOpacity style = {{flex:1}} onPress = {()=>  {this._cambiarPantalla('ViajesHistoricosPasajero')}}>
                                 <CartaComponente imagen = "../Imagenes/landscape_1.png" titulo = "Historial" descripcion = "Información acerca de viajes realizados como pasajero"></CartaComponente>
                             </TouchableOpacity>
-                            <TouchableOpacity style = {{flex:1}} onPress = {()=>{}}>
-                                <CartaComponente imagen = "../Imagenes/landscape_1.png" titulo = "Logros" descripcion = "Puedes ver todos los logros que has desbloqueado!"></CartaComponente>
+                            <TouchableOpacity style = {{flex:1}} onPress = {()=>{this._cerrarSesion()}}>
+                                <CartaComponente imagen = "../Imagenes/landscape_1.png" titulo = "Cerrar sesión" descripcion = "Cierra sesión en este dispositivo"></CartaComponente>
                             </TouchableOpacity>
                         </View>
                     </ScrollView>

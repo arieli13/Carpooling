@@ -409,6 +409,29 @@ export default class RestAPI{
         });
     }
 
+    static obtenerViajes(usuario){
+        return new Promise((resolve, reject)=>{
+            fetch('http://'+this.ip+':'+this.puerto+'/api/viaje/'+usuario,{
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if(responseJson['error']){
+                    reject( {error:responseJson['error']} );
+                }else{
+                    resolve(responseJson);
+                }
+            })
+            .catch((response) => response.json())
+            .catch((error) => {
+                reject( {error:"No se pudo conectar con el servidor"});
+            });
+        });
+    }
+
     static crearPuntoReunion(datos){
         return new Promise((resolve, reject)=>{
             fetch('http://'+this.ip+':'+this.puerto+'/api/puntoReunion',{

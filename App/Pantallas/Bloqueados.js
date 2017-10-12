@@ -21,26 +21,9 @@ export default class Bloqueados extends Component{
         super(props);
             this.state = {
                 bloqueados : [],
-                ejecutando : false
+                ejecutando : true
             }
-            this._obtenerUsuario();
         }
-
-        async _obtenerUsuario(){
-            try {
-                 var usuario = await AsyncStorage.getItem('@nombre_usuario:key');
-                 if (usuario == null){
-                     const { navigate } = this.props.navigation;
-                     navigate('Autenticacion');
-                 }
-                 this.state.usuario =  usuario;
-             } catch (error) {
-                const { navigate } = this.props.navigation;
-                navigate('Autenticacion');
-             }
-         
-        }
-    
 
         async _desbloquear(nombre_usuario){
             try{
@@ -67,6 +50,22 @@ export default class Bloqueados extends Component{
             }else{
                 Alert.alert("Atención", "Ha ocurrido un error inesperado");
             }
+        }
+    }
+
+    async componentWillMount(){
+        try {
+            var usuario = await AsyncStorage.getItem('@nombre_usuario:key');
+            if (usuario == null){
+                const { navigate } = this.props.navigation;
+                navigate('Home');
+            }
+            await this.setState({usuario:usuario});
+            await this._refresh();
+            await this.setState({ejecutando:false});
+        } catch (error) {
+           const { navigate } = this.props.navigation;
+           navigate('Home');
         }
     }
 

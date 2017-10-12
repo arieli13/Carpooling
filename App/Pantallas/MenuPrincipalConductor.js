@@ -21,6 +21,21 @@ export default class MenuPrincipalConductor extends Component{
         navigate(pantalla);
     }
 
+    /*async componentWillMount(){
+        try {
+            var usuario = await AsyncStorage.getItem('@nombre_usuario:key');
+            if (usuario == null){
+                const { navigate } = this.props.navigation;
+                navigate('Home');
+            }
+            await this.setState({usuario:usuario});
+            await this.setState({ejecutando:false});
+        } catch (error) {
+           const { navigate } = this.props.navigation;
+           navigate('Home');
+        }
+    }*/
+
     render(){
         return(
             <View style = {{flex:1, backgroundColor:COLORES.BACKGROUND}}>
@@ -31,7 +46,7 @@ export default class MenuPrincipalConductor extends Component{
                 <View style = {{flex:3}}>
                     
                         <View style = {{flex: 1, flexDirection: "row", justifyContent: "space-around"}}>
-                            <TouchableOpacity style = {{flex:1}} onPress = {()=>  {this._cambiarPantalla('CrearViaje')}}>
+                            <TouchableOpacity style = {{flex:1}} onPress = {()=>  {this._cambiarPantalla('Viajes')}}>
                                 <CartaComponente imagen = "../Imagenes/landscape_1.png" titulo = "Viajes" descripcion = "Crear, ver, modificar o eliminar viajes"></CartaComponente>
                             </TouchableOpacity>
 

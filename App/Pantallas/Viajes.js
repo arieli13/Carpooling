@@ -14,7 +14,7 @@ ESTANDARES = require('../estandares');
 COLORES=ESTANDARES.COLORES;
 TIPOGRAFIAS = ESTANDARES.TIPOGRAFIAS;
 
-export default class Vehiculos extends Component{
+export default class Viajes extends Component{
     static navigationOptions = {
         header: null
       };
@@ -22,25 +22,14 @@ export default class Vehiculos extends Component{
       constructor(props){
         super(props);
         this.state = {
-            vehiculos:[],
+            viajes:[],
             ejecutando:true
         }
     
     }
     
-    async _eliminarVehiculo(vehiculo){
-        try{
-            var respuesta = await RestAPI.eliminarVehiculo(vehiculo);
-             this.setState({ejecutando:false});
-             this.setState({vehiculos:respuesta});
-         }catch(error){
-             this.setState({ejecutando:false});
-             if(error.error){
-                 Alert.alert("Error", error.error);
-             }else{
-                 Alert.alert("Atención", "Ha ocurrido un error inesperado");
-             }
-         }
+    async _eliminarViaje(viaje){
+        Alert.alert("Eliminar", "Eliminar viaje");
     }
 
     _modificarVehiculo(vehiculo, marca, placa, color){
@@ -53,15 +42,19 @@ export default class Vehiculos extends Component{
         });
     }
 
-    _crearVehiculo(){
+    _crearViaje(){
         const { navigate } = this.props.navigation;
-        navigate('CrearVehiculo');
+        navigate('CrearViaje');
+    }
+
+    async _verViaje(id_viaje){
+
     }
 
     async _refresh() {
         try{
-            var respuesta = await RestAPI.obtenerVehiculos(this.state.usuario);
-            this.setState({vehiculos:respuesta});
+            var respuesta = await RestAPI.obtenerViajes(this.state.usuario);
+            this.setState({viajes:respuesta});
         }catch(error){
             if(error.error){
                 Alert.alert("Error", error.error);
@@ -90,23 +83,23 @@ export default class Vehiculos extends Component{
     render(){
         return(
             <View  style = {{flex:1, backgroundColor: COLORES.BACKGROUND}}>
-                <HeaderComponente nombre = "Vehiculos"></HeaderComponente>
+                <HeaderComponente nombre = "Viajes"></HeaderComponente>
                 
                 <View style = {{flex:8, marginLeft:30, marginRight:30, marginTop:30, marginBottom: 10}}>
                 {this.state.ejecutando == true?<ActivityIndicator style = {{marginTop:20, marginBottom:20}}/>:null}
                     <PTRView onRefresh={this._refresh.bind(this)} style = {{flex:1}}>
                         <ScrollView showsVerticalScrollIndicator={false} style = {{flex:1}}>
-                        {this.state.vehiculos.length>0?this.state.vehiculos.map((dato, index)=>{
-                                return <TouchableOpacity key = {index} style = {{flex:1}} onPress = {()=>  {this._modificarVehiculo(dato.id_vehiculo, dato.marca, dato.placa, dato.color) }}>
-                                            <CartaPequenniaComponente key = {index} boton_onPress = {()=>{this._eliminarVehiculo(dato.id_vehiculo)}} boton_activo = {true} boton_mt = {3} boton_mb = {3} boton_mr = {5} boton_filled = {require('../Imagenes/cancel-button.png')} boton_unfilled = {require('../Imagenes/cancel-button.png')} boton_width = {40} boton_height = {10} imagen = {require('../Imagenes/vehiculo.png')}  mostrarBoton = {true} color  = {COLORES.ROJO} titulo = {dato.marca} detalle = {dato.placa + " / " +dato.color} ></CartaPequenniaComponente>
+                        {this.state.viajes.length>0?this.state.viajes.map((dato, index)=>{
+                                return <TouchableOpacity key = {index} onPress = {()=>{this._verViaje(dato.id)}} style = {{flex:1}}>
+                                            <CartaPequenniaComponente key = {index} imagen = {require('../Imagenes/map.png')} mostrarBoton = {false} color  = {COLORES.ROJO} titulo = {dato.nombre_inicio + " - "+dato.nombre_destino} detalle = {dato.fecha_hora_inicio} ></CartaPequenniaComponente>
                                         </TouchableOpacity>;
                                        
-                            }):<Text style = {[estilo.texto, estilo.titulo, {alignSelf:"center"}]}>No tiene vehículos</Text>}
+                            }):<Text style = {[estilo.texto, estilo.titulo, {alignSelf:"center"}]}>No tiene viajes</Text>}
                         </ScrollView>
                     </PTRView>
                 </View>
                 <View style = {{flex:1, alignItems: "flex-end", marginBottom: 10, marginRight:10}}>
-                <BotonComponente onPress = {()=>{this._crearVehiculo()}} background = {COLORES.GRIS_CLARO} filled = {require('../Imagenes/crear.png')} unfilled = {require('../Imagenes/crear.png')} activo = {true} width = {50} height = {0} > </BotonComponente>
+                <BotonComponente onPress = {()=>{this._crearViaje()}} background = {COLORES.GRIS_CLARO} filled = {require('../Imagenes/crear.png')} unfilled = {require('../Imagenes/crear.png')} activo = {true} width = {50} height = {0} > </BotonComponente>
                 </View>
                 
             </View>

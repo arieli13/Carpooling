@@ -16,12 +16,12 @@ import Vehiculos from './App/Pantallas/Vehiculos';
 import ModificarVehiculo from './App/Pantallas/ModificarVehiculo';
 import Buscar from './App/Pantallas/Buscar';
 import CrearVehiculo from './App/Pantallas/CrearVehiculo';
-
-
+import TerminosCondiciones from './App/Pantallas/TerminosCondiciones';
+import Viajes from './App/Pantallas/Viajes';
 /////////
 import CrearViaje from './App/Pantallas/CrearViaje';
-export default X = StackNavigator({
-    'Home': { screen: MenuPrincipalConductor },
+export default app = StackNavigator({
+    'Home': { screen: Autenticacion },
     'EscogerUsuario': {screen: EscogerUsuario},
 
 
@@ -37,8 +37,11 @@ export default X = StackNavigator({
     'ModificarVehiculo':{screen:ModificarVehiculo},
     'Buscar':{screen:Buscar},
     'CrearViaje':{screen: CrearViaje},
-    'CrearVehiculo':{screen: CrearVehiculo}
+    'CrearVehiculo':{screen: CrearVehiculo},
+
+    'TerminosCondiciones':{screen:TerminosCondiciones},
+    'Viajes':{screen:Viajes}
   });
 
 
-AppRegistry.registerComponent('ride', () => X);
+AppRegistry.registerComponent('ride', () => app);

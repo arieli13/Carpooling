@@ -26,8 +26,16 @@ export default class AutenticacionComponente extends Component{
         }
     }
 
-    async _obtenerUsuario(){
-       try {
+
+    async _eliminarUsuario(){
+        try {
+            await AsyncStorage.removeItem('@nombre_usuario:key');
+        } catch (error) {
+        }
+    }
+
+    async componentWillMount(){
+        try {
             var usuario = await AsyncStorage.getItem('@nombre_usuario:key');
             if (usuario !== null){
                 const { navigate } = this.props.navigation;
@@ -37,31 +45,18 @@ export default class AutenticacionComponente extends Component{
         }
     }
 
-    async _eliminarUsuario(){
-        try {
-            await AsyncStorage.removeItem('@nombre_usuario:key');
-        } catch (error) {
-        }
-    }
-
-    componentWillMount(){
-        this._obtenerUsuario();
-    }
-
 
     async _Ingresar(){
         try{
-            /*let usuario = this.state.usuario;
-            let contrasennia = this.state.contrasennia;
+            var usuario = this.state.usuario;
+            var contrasennia = this.state.contrasennia;
             this.setState({conectando:true});
             
-            var respuesta = await RestAPI.autenticacion("2014053647", contrasennia);
+            var respuesta = await RestAPI.autenticacion(usuario, contrasennia);
 
-            var datos = respuesta.perfil;
-            Usuario.iniciarSesion(datos.id, datos.tipo, datos.nombre_usuario, datos.nombre, datos.apellido, datos.telefono, datos.correo, datos.area);
-            this.setState({conectando:false});*/
+            this.setState({conectando:false});
             
-            this._guardarUsuario({nombre_usuario:"2014053647"});
+            this._guardarUsuario({nombre_usuario:respuesta.nombre_usuario});
             const { navigate } = this.props.navigation;
             navigate('EscogerUsuario');
            
@@ -70,6 +65,7 @@ export default class AutenticacionComponente extends Component{
                 this.setState({error: e.error});
             }else{
                 Alert.alert("Ha ocurrido un error inesperado", JSON.stringify(e, null, 2));
+                throw(e);
             }
             //this.setState({error: e, conectando:false});
             this.setState({conectando:false});
@@ -123,7 +119,7 @@ export default class AutenticacionComponente extends Component{
 
 const estilos = StyleSheet.create({
     login:{
-        flex:0.8,
+        flex:1,
         flexDirection:'column',
         justifyContent: "center",
         marginLeft: 40,

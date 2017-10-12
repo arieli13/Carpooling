@@ -24,23 +24,21 @@ export default class ModificarVehiculo extends Component{
         this.state.marca  = this.props.navigation.state.params.marca;
         this.state.placa  = this.props.navigation.state.params.placa;
         this.state.color  = this.props.navigation.state.params.color;
-
-        this._obtenerUsuario();
     }
 
-      async _obtenerUsuario(){
+    async componentWillMount(){
         try {
-             var usuario = await AsyncStorage.getItem('@nombre_usuario:key');
-             if (usuario == null){
-                 const { navigate } = this.props.navigation;
-                 navigate('Autenticacion');
-             }
-             this.state.usuario = usuario;
-         } catch (error) {
-            const { navigate } = this.props.navigation;
-            navigate('Autenticacion');
-         }
-     
+            var usuario = await AsyncStorage.getItem('@nombre_usuario:key');
+            if (usuario == null){
+                const { navigate } = this.props.navigation;
+                navigate('Home');
+            }
+            await this.setState({usuario:usuario});
+            await this.setState({ejecutando:false});
+        } catch (error) {
+           const { navigate } = this.props.navigation;
+           navigate('Home');
+        }
     }
 
     async modificarVehiculo(){

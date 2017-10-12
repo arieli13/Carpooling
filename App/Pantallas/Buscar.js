@@ -21,9 +21,7 @@ export default class Buscar extends Component{
         super(props);
             this.state = {
 
-            viajes:[
-                {id: 13, nombre:"TEC-HEREDIA", hora: "19/10/2017 11:30am"}, 
-                {id:14, nombre:"TEC-HEREDIA", hora: "19/10/2017 11:30am"}],
+            viajes:[],
             usuarios:[],
 
             nombre_usuario_busqueda : "",
@@ -32,23 +30,22 @@ export default class Buscar extends Component{
             footer:{fontColor:[COLORES.BACKGROUND, COLORES.NEGRO, COLORES.NEGRO, COLORES.NEGRO],  fontWeight: ['bold', 'normal', 'normal', 'normal'], color:[COLORES.AZUL, COLORES.BACKGROUND, COLORES.BACKGROUND, COLORES.BACKGROUND]}
             
             }
-            this._obtenerUsuario();
             this.state.buscando = false;
         }
 
-        async _obtenerUsuario(){
+        async componentWillMount(){
             try {
-                 var usuario = await AsyncStorage.getItem('@nombre_usuario:key');
-                 if (usuario == null){
-                     const { navigate } = this.props.navigation;
-                     navigate('Autenticacion');
-                 }
-                 this.state.usuario = usuario;
-             } catch (error) {
-                const { navigate } = this.props.navigation;
-                navigate('Autenticacion');
-             }
-         
+                var usuario = await AsyncStorage.getItem('@nombre_usuario:key');
+                if (usuario == null){
+                    const { navigate } = this.props.navigation;
+                    navigate('Home');
+                }
+                await this.setState({usuario:usuario});
+                await this.setState({ejecutando:false});
+            } catch (error) {
+               const { navigate } = this.props.navigation;
+               navigate('Home');
+            }
         }
 
         async _verUsuario(nombre_usuario){
@@ -113,7 +110,7 @@ export default class Buscar extends Component{
                     <View style = {{flex:1, display: this.state.pantalla[0], marginLeft:16, marginTop:10, marginRight:16}}>
                         {this.state.buscando == true?<ActivityIndicator style = {{marginTop:20, marginBottom:20}}/> :null}
                         <TextInput value = {this.state.nombre_usuario_busqueda} onChangeText = {(texto)=>{this.setState({nombre_usuario_busqueda:texto})}} placeholder = "Usuario" maxLength={50}></TextInput>
-                        <Button title = "Buscar" onPress = {()=>this._refresh()}></Button>
+                        <Button color = {COLORES.AZUL} title = "Buscar" onPress = {()=>this._refresh()}></Button>
                     </View>
 
                     <View style = {{flex:1, display: this.state.pantalla[1], marginLeft:16, marginTop:10}}>

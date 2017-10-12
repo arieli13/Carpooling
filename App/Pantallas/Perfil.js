@@ -18,26 +18,25 @@ export default class Perfil extends Component{
 
       constructor(props){
         super(props);
-        this._obtenerUsuario();
         this.state={
             ejecutando:false,
             esFavorito : this.props.navigation.state.params.favorito
         }
     }
 
-      async _obtenerUsuario(){
+    async componentWillMount(){
         try {
-             var usuario = await AsyncStorage.getItem('@nombre_usuario:key');
-             if (usuario == null){
-                 const { navigate } = this.props.navigation;
-                 navigate('Autenticacion');
-             }
-             this.state.usuario = usuario;
-         } catch (error) {
-            const { navigate } = this.props.navigation;
-            navigate('Autenticacion');
-         }
-     
+            var usuario = await AsyncStorage.getItem('@nombre_usuario:key');
+            if (usuario == null){
+                const { navigate } = this.props.navigation;
+                navigate('Home');
+            }
+            await this.setState({usuario:usuario});
+            //await this.setState({ejecutando:false});
+        } catch (error) {
+           const { navigate } = this.props.navigation;
+           navigate('Home');
+        }
     }
 
     async favorito(){
