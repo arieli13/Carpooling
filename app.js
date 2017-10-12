@@ -15,12 +15,13 @@ import MenuPrincipalConductor from './App/Pantallas/MenuPrincipalConductor';
 import Vehiculos from './App/Pantallas/Vehiculos';
 import ModificarVehiculo from './App/Pantallas/ModificarVehiculo';
 import Buscar from './App/Pantallas/Buscar';
+import CrearVehiculo from './App/Pantallas/CrearVehiculo';
 
 
 /////////
 import CrearViaje from './App/Pantallas/CrearViaje';
 export default X = StackNavigator({
-    'Home': { screen: Perfil },
+    'Home': { screen: MenuPrincipalConductor },
     'EscogerUsuario': {screen: EscogerUsuario},
 
 
@@ -35,7 +36,8 @@ export default X = StackNavigator({
     'Vehiculos':{screen:Vehiculos},
     'ModificarVehiculo':{screen:ModificarVehiculo},
     'Buscar':{screen:Buscar},
-    'CrearViaje':{screen: CrearViaje}
+    'CrearViaje':{screen: CrearViaje},
+    'CrearVehiculo':{screen: CrearVehiculo}
   });
 
 

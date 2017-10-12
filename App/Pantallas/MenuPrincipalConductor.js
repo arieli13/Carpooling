@@ -31,7 +31,7 @@ export default class MenuPrincipalConductor extends Component{
                 <View style = {{flex:3}}>
                     
                         <View style = {{flex: 1, flexDirection: "row", justifyContent: "space-around"}}>
-                            <TouchableOpacity style = {{flex:1}}>
+                            <TouchableOpacity style = {{flex:1}} onPress = {()=>  {this._cambiarPantalla('CrearViaje')}}>
                                 <CartaComponente imagen = "../Imagenes/landscape_1.png" titulo = "Viajes" descripcion = "Crear, ver, modificar o eliminar viajes"></CartaComponente>
                             </TouchableOpacity>
 
@@ -41,7 +41,7 @@ export default class MenuPrincipalConductor extends Component{
                             </TouchableOpacity>
                         </View>
                         <View style = {{flex: 1, flexDirection: "row", justifyContent: "space-around"}}>
-                            <TouchableOpacity style = {{flex:1}} onPress = {()=>  {this._cambiarPantalla('')}}>
+                            <TouchableOpacity style = {{flex:1}} onPress = {()=>  {this._cambiarPantalla('Vehiculos')}}>
                                 <CartaComponente imagen = "../Imagenes/landscape_1.png" titulo = "Vehículos" descripcion = "Crea, modifica o elimina un vehículo"></CartaComponente>
                             </TouchableOpacity>    
 

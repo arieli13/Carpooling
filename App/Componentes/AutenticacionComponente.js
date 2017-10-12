@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Button, StyleSheet, Text, View, Alert, ActivityIndicator} from 'react-native';
+import { Button, StyleSheet, Text, View, Alert, ActivityIndicator, AsyncStorage} from 'react-native';
 import { TextField } from 'react-native-material-textfield'; //https://www.npmjs.com/package/react-native-material-textfield
 ESTANDARES = require('../estandares');
 COLORES=ESTANDARES.COLORES;
 TIPOGRAFIAS = ESTANDARES.TIPOGRAFIAS;
 
 import RestAPI from '../Clases/RestAPI.js';
-import Usuario from '../Clases/Usuario.js';
 
 export default class AutenticacionComponente extends Component{
     constructor(props){
@@ -19,6 +18,37 @@ export default class AutenticacionComponente extends Component{
         }
     }
 
+    async _guardarUsuario(datos){
+        try{
+            await AsyncStorage.setItem('@nombre_usuario:key', datos.nombre_usuario);
+        }catch(error){
+            throw({error:"No se pudo guardar usuario en el dispositivo"});
+        }
+    }
+
+    async _obtenerUsuario(){
+       try {
+            var usuario = await AsyncStorage.getItem('@nombre_usuario:key');
+            if (usuario !== null){
+                const { navigate } = this.props.navigation;
+                navigate('EscogerUsuario');
+            }
+        } catch (error) {
+        }
+    }
+
+    async _eliminarUsuario(){
+        try {
+            await AsyncStorage.removeItem('@nombre_usuario:key');
+        } catch (error) {
+        }
+    }
+
+    componentWillMount(){
+        this._obtenerUsuario();
+    }
+
+
     async _Ingresar(){
         try{
             /*let usuario = this.state.usuario;
@@ -30,6 +60,8 @@ export default class AutenticacionComponente extends Component{
             var datos = respuesta.perfil;
             Usuario.iniciarSesion(datos.id, datos.tipo, datos.nombre_usuario, datos.nombre, datos.apellido, datos.telefono, datos.correo, datos.area);
             this.setState({conectando:false});*/
+            
+            this._guardarUsuario({nombre_usuario:"2014053647"});
             const { navigate } = this.props.navigation;
             navigate('EscogerUsuario');
            
@@ -48,7 +80,6 @@ export default class AutenticacionComponente extends Component{
         /*if(Usuario.inicioSesion){
             this.props.navigation.navigate('EscogerUsuario');
         }*/
-
         if(this.state.conectando){
             return(
                 <View style = {estilos.login}>

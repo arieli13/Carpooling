@@ -308,7 +308,7 @@ export default class MapaComponente extends Component{
                             dialogStyle = {{flex:1, backgroundColor: 'rgba(52, 52, 52, 0.8)', alignSelf:"center" }}
                         >
                             <View style = {{marginHorizontal:30}}>
-                                <TextInput value = {this.state.nuevoNombre} onChangeText ={(texto)=>{this.setState({nuevoNombre:texto});}}  ></TextInput>
+                                <TextInput maxLength = {30} value = {this.state.nuevoNombre} onChangeText ={(texto)=>{this.setState({nuevoNombre:texto});}}  ></TextInput>
                                 <Button style = {{flex:1}} color = {COLORES.AZUL} title = "Cambiar" onPress = {()=>{this._modificarNombre();this.popupDialog.dismiss();}}></Button>
                                 <Button style = {{flex:1}} color = {COLORES.ROJO} title = "Cancelar" onPress = {()=>{this.popupDialog.dismiss();}}></Button>
                             </View>

@@ -31,7 +31,7 @@ export default class MenuPrincipalPasajero extends Component{
                 <View style = {{flex:3}}>
                     <ScrollView showsVerticalScrollIndicator={false} style = {{flex:1, alignContent: "space-around"}}>
                         <View style = {{flex: 1, flexDirection: "row", justifyContent: "space-around"}}>
-                            <TouchableOpacity style = {{flex:1}}>
+                            <TouchableOpacity style = {{flex:1}} onPress = {()=>  {this._cambiarPantalla('Buscar')}}>
                                 <CartaComponente imagen = "../Imagenes/landscape_1.png" titulo = "Buscar" descripcion = "Buscar viajes, personas, etc"></CartaComponente>
                             </TouchableOpacity>
                             <TouchableOpacity style = {{flex:1}} onPress = {()=>  {this._cambiarPantalla('ViajesPendientes')}}>

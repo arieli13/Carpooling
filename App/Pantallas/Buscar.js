@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import {View, ScrollView, Text, TextInput, Alert, TouchableOpacity, Switch } from 'react-native';
+import {View, ScrollView, Text, TextInput, Alert, TouchableOpacity, Switch, StyleSheet, Button, AsyncStorage , ActivityIndicator} from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import PTRView from 'react-native-pull-to-refresh';//https://www.npmjs.com/package/react-native-pull-to-refresh
 
 import HeaderComponente from '../Componentes/HeaderComponente';
 import CartaPequenniaComponente from '../Componentes/CartaPequenniaComponente';
 import BotonComponente from '../Componentes/BotonComponente';
+import RestAPI from '../Clases/RestAPI.js';
 
 ESTANDARES = require('../estandares');
 COLORES=ESTANDARES.COLORES;
+TIPOGRAFIAS = ESTANDARES.TIPOGRAFIAS;
 
 export default class Buscar extends Component{
     static navigationOptions = {
@@ -17,93 +19,169 @@ export default class Buscar extends Component{
 
       constructor(props){
         super(props);
-            var viajesAux = { viajes: [
+            this.state = {
+
+            viajes:[
                 {id: 13, nombre:"TEC-HEREDIA", hora: "19/10/2017 11:30am"}, 
-                {id:14, nombre:"TEC-HEREDIA", hora: "19/10/2017 11:30am"}] }
-    
-            this.state = {viajes: viajesAux.viajes.map((dato, index)=>{
-                    return  <TouchableOpacity key = {dato.id} onPress = {()=>{this._verViaje(dato.id)}} style = {{flex:1}}>
-                                <CartaPequenniaComponente imagen = {require('../Imagenes/map.png')} mostrarBoton = {false} color  = {COLORES.ROJO} titulo = {dato.nombre} detalle = {dato.hora} ></CartaPequenniaComponente>
-                            </TouchableOpacity>;
-            })}
-            this.state.buscar = true;
-            this.state.mostrarOpciones = null;
-            this.state.mostrarResultados = 'none';
+                {id:14, nombre:"TEC-HEREDIA", hora: "19/10/2017 11:30am"}],
+            usuarios:[],
+
+            nombre_usuario_busqueda : "",
+        
+            pantalla: [null, 'none', 'none', 'none' ], 
+            footer:{fontColor:[COLORES.BACKGROUND, COLORES.NEGRO, COLORES.NEGRO, COLORES.NEGRO],  fontWeight: ['bold', 'normal', 'normal', 'normal'], color:[COLORES.AZUL, COLORES.BACKGROUND, COLORES.BACKGROUND, COLORES.BACKGROUND]}
+            
+            }
+            this._obtenerUsuario();
+            this.state.buscando = false;
         }
 
-      _verViaje(viaje){
-        Alert.alert("Viaje", "Ver viaje "+String(viaje));
-        
-      }
+        async _obtenerUsuario(){
+            try {
+                 var usuario = await AsyncStorage.getItem('@nombre_usuario:key');
+                 if (usuario == null){
+                     const { navigate } = this.props.navigation;
+                     navigate('Autenticacion');
+                 }
+                 this.state.usuario = usuario;
+             } catch (error) {
+                const { navigate } = this.props.navigation;
+                navigate('Autenticacion');
+             }
+         
+        }
 
-      _buscar(){
-        Alert.alert("Buscar", this.state.text);
+        async _verUsuario(nombre_usuario){
+            try{
+                this.setState({buscando:true});
+                var respuesta = await RestAPI.obtenerDatosUsuario(this.state.usuario, nombre_usuario);
+                this.setState({buscando:false});
+                
+                const { navigate } = this.props.navigation;
+                navigate('Perfil', respuesta);
+                
+            }catch(error){
+                this.setState({buscando:false});
+                if(error.error){
+                    Alert.alert("Error", error.error);
+                }else{
+                    Alert.alert("Atención", "Ha ocurrido un error inesperado");
+                    throw(error);
+                }
+            }
+        }
+
+    async buscarUsuarios(){
+        var respuesta = await RestAPI.buscarUsuarios(this.state.usuario, this.state.nombre_usuario_busqueda);
+        return respuesta;
     }
 
-      _refresh() {
-        this.setState({viajes:<Text key = {0} style = {{flex:1, alignSelf: "center", fontSize: TIPOGRAFIAS.TAMANNIO_NORMAL, fontWeight: "bold", color: COLORES.AZUL}}>No ha realizado ningún viaje como pasajero</Text>});
-      }
-
-      _cambiarBusqueda(){
-        this.setState((prevState, props) => {
-            return { buscar: !prevState.buscar }
-          });
-      }
-
-      _esconderDatosBusqueda(){
-        if(this.state.mostrarOpciones == null){
-            this.setState({mostrarOpciones:'none', mostrarResultados:null});
-            
-        }else{
-            this.setState({mostrarOpciones:null, mostrarResultados: 'none'});
+    async _refresh() {
+        try{
+            this.setState({buscando:true});
+            var usuarios = await this.buscarUsuarios()
+            await this.setState({usuarios:usuarios});
+            this.setState({buscando:false});
+        }catch(error){
+            this.setState({buscando:false});
+            if(error.error){
+                Alert.alert("Error", error.error);
+            }else{
+                Alert.alert("Atención", "Ha ocurrido un error inesperado");
+            }
         }
-      }
+    }
+
+      async _cambiarPantalla(pantalla){
+        var pantallaAux = ['none', 'none', 'none', 'none'];
+        pantallaAux[pantalla] = null;
+        
+        var footerAux = {fontColor:[COLORES.NEGRO, COLORES.NEGRO, COLORES.NEGRO, COLORES.NEGRO],  fontWeight: ['normal', 'normal', 'normal', 'normal'], color:[COLORES.BACKGROUND, COLORES.BACKGROUND, COLORES.BACKGROUND, COLORES.BACKGROUND]};
+        footerAux.fontColor[pantalla] = COLORES.BACKGROUND;
+        footerAux.fontWeight[pantalla] = 'bold';
+        footerAux.color[pantalla] =  COLORES.AZUL;
+        await this.setState( { pantalla: pantallaAux, footer:footerAux} );
+    }
 
     render(){
         return(
             <View  style = {{flex:1, backgroundColor: COLORES.BACKGROUND}}>
                 <HeaderComponente nombre = "Buscar"></HeaderComponente>
-                <View style = {{flex: 1, maxHeight:30, marginTop:10}}>
-                    <BotonComponente width = {20} height = {10} onPress = {()=>{this._esconderDatosBusqueda()}} filled = {require('../Imagenes/abajo.png')} unfilled = {require('../Imagenes/arriba.png')} activo = {true} ></BotonComponente>
-                </View>
 
+                <View style = {{flex:12}}>
 
-
-                <View style = {{flex:1, marginLeft:30, marginRight:30, display:this.state.mostrarOpciones}}>
-
-                    <View style = {{flex:1, flexDirection:"row"}}>
-                            <View style = {{flex:5}}>
-                                <TextInput onChangeText={(text) => this.setState({text})} value={this.state.text} style = {{ borderColor : COLORES.AZUL}} placeholder = "Usuario" selectionColor = {COLORES.AZUL} placeholderTextColor = {COLORES.AZUL} underlineColorAndroid = {COLORES.AZUL} ></TextInput>
-                            </View>
-                            <View style = {{flex:1, maxHeight:40}}>
-                                <BotonComponente width = {40} height = {50} onPress = {()=>{this._buscar()}} filled = {require('../Imagenes/buscar.png')} unfilled = {require('../Imagenes/buscar.png')} activo = {true} ></BotonComponente>
-                            </View>
-                    </View>
-                    <View style = {{flex:1, flexDirection:"row"}}>
-                        <TextInput style = {{flex:1, borderColor : COLORES.AZUL}} placeholder = "Punto inicio" selectionColor = {COLORES.AZUL} placeholderTextColor = {COLORES.AZUL} underlineColorAndroid = {COLORES.AZUL} ></TextInput>
-                        <TextInput style = {{flex:1,  borderColor : COLORES.AZUL}} placeholder = "Punto destino" selectionColor = {COLORES.AZUL} placeholderTextColor = {COLORES.AZUL} underlineColorAndroid = {COLORES.AZUL} ></TextInput>
-                    </View>
-                    <View style = {{flex:1, flexDirection: "row"}}>
-                        <Text>Usuario</Text>
-                        <Switch onValueChange={() => {this._cambiarBusqueda()}} value = {this.state.buscar}></Switch>
-                        <Text>Viaje</Text>
+                    <View style = {{flex:1, display: this.state.pantalla[0], marginLeft:16, marginTop:10, marginRight:16}}>
+                        {this.state.buscando == true?<ActivityIndicator style = {{marginTop:20, marginBottom:20}}/> :null}
+                        <TextInput value = {this.state.nombre_usuario_busqueda} onChangeText = {(texto)=>{this.setState({nombre_usuario_busqueda:texto})}} placeholder = "Usuario" maxLength={50}></TextInput>
+                        <Button title = "Buscar" onPress = {()=>this._refresh()}></Button>
                     </View>
 
-                </View>
+                    <View style = {{flex:1, display: this.state.pantalla[1], marginLeft:16, marginTop:10}}>
+                        <Text>Mapa</Text>
+                    </View>
 
-
-
-                <View style = {{flex:1, marginLeft:30, marginRight:30, display:this.state.mostrarResultados}}>
-
-                    <View style = {{flex:5}}>
-                        <PTRView onRefresh={this._refresh.bind(this)}>
+                    <View style = {{flex:1, display: this.state.pantalla[2], marginLeft:16, marginTop:10, marginRight: 16}}>
+                        <PTRView onRefresh={this._refresh.bind(this)} style = {{flex:1}}>
                             <ScrollView showsVerticalScrollIndicator={false} style = {{flex:1}}>
-                                {this.state.viajes}
+                                {this.state.usuarios.length>0?this.state.usuarios.map((dato, index)=>{
+                                    return  <TouchableOpacity onPress = {()=>{this._verUsuario(dato.nombre_usuario)}} key = {index} style = {{flex:1}}>
+                                                <CartaPequenniaComponente key = {index} boton_onPress = {()=>{}} boton_activo = {true} boton_mt = {3} boton_mb = {3} boton_mr = {5} boton_filled = {require('../Imagenes/heart_filled.png')} boton_unfilled = {require('../Imagenes/heart_unfilled.png')} boton_width = {30} boton_height = {10} imagen = {require('../Imagenes/user.png')} mostrarBoton = {false} color  = {COLORES.NEGRO} titulo = {dato.nombre+" "+dato.apellido} detalle = {dato.area}></CartaPequenniaComponente>
+                                            </TouchableOpacity>;
+                                }):<Text style = {[estilo.texto, estilo.titulo, {alignSelf:"center"}]}>No se encontraron resultados</Text>}
                             </ScrollView>
                         </PTRView>
                     </View>
+
+                    <View style = {{flex:1, display: this.state.pantalla[3], marginLeft:16, marginTop:10}}>
+                        <Text>Viajes</Text>
+                    </View>
                 </View>
+
+
+
+
+                <View style = {estilo.footer}>
+
+                    <TouchableOpacity onPress = {()=>{this._cambiarPantalla(0)}} style = {[estilo.footerBoton, {backgroundColor:this.state.footer.color[0]}]}>
+                        <Text style = {[estilo.texto,{color:this.state.footer.fontColor[0], fontWeight: this.state.footer.fontWeight[0]}]}>Datos</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress = {()=>{this._cambiarPantalla(1)}} style = {[estilo.footerBoton, {backgroundColor:this.state.footer.color[1]}]}>
+                        <Text style = {[estilo.texto,{color:this.state.footer.fontColor[1], fontWeight: this.state.footer.fontWeight[1]}]}>Mapa</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress = {()=>{this._cambiarPantalla(2)}} style = {[estilo.footerBoton, {backgroundColor:this.state.footer.color[2]}]}>
+                        <Text style = {[estilo.texto,{color:this.state.footer.fontColor[2], fontWeight: this.state.footer.fontWeight[2]}]}>Usuarios</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress = {()=>{this._cambiarPantalla(3)}} style = {[estilo.footerBoton, {backgroundColor:this.state.footer.color[3]}]}>
+                        <Text style = {[estilo.texto,{color:this.state.footer.fontColor[3], fontWeight: this.state.footer.fontWeight[3]}]}>Viajes</Text>
+                    </TouchableOpacity>
+
+                </View>
+                
             </View>
         );    
     }
 }
+
+const estilo = StyleSheet.create({
+    footer:{
+        flex:1, 
+        flexDirection: "row",
+        borderTopWidth:3,
+        borderTopColor: COLORES.GRIS_MEDIO
+    },
+    footerBoton:{
+        flex:1, 
+        justifyContent: "center",
+        alignItems: "center"
+    },
+
+    texto:{
+        fontSize: TIPOGRAFIAS.TAMANNIO_NORMAL,
+        color: COLORES.TEXTO,
+        fontFamily: TIPOGRAFIAS.TEXTO_NORMAL
+    },
+    titulo:{
+        fontWeight: "bold",
+        color:COLORES.TITULO
+    }
+});

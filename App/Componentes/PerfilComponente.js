@@ -23,7 +23,7 @@ export default class Perfil extends Component{
                     <ScrollView showsVerticalScrollIndicator={false} style = {{flex:1}}>
 
                         <View style = {{flex:1, justifyContent: "center", overflow: "hidden", alignItems: "center", position: "relative", margin: 10}}>
-                            <Image  style = {{height: 150, width:150, borderRadius: 150/2, resizeMode: "stretch"}} source={require('../Imagenes/user.jpg')} />
+                            <Image  style = {{height: 100, width:100, borderRadius: 100/2, resizeMode: "stretch"}} source={require('../Imagenes/user.png')} />
                         </View>
 
 
@@ -40,7 +40,7 @@ export default class Perfil extends Component{
                                 stagger={10}
                                 maxScale={5}
                                 max = {5}
-                                initial={5}
+                                initial={this.props.rating}
                                 starStyle={{
                                 width: 40,
                                 height: 40

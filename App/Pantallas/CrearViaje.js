@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { AppRegistry, TouchableOpacity, Icon, View, StyleSheet, Image, Alert, Text, TextInput, TouchableHighlight, Picker, Modal,ScrollView} from 'react-native';
+import { AppRegistry, TouchableOpacity, Icon, View, StyleSheet, Image, Alert, Text, TextInput, TouchableHighlight, Picker, Modal,ScrollView, AsyncStorage} from 'react-native';
 
 import MapaComponente from '../Componentes/MapaComponente';
 import HeaderComponente from '../Componentes/HeaderComponente';
 
 import DatePicker from 'react-native-datepicker'
+import RestAPI from '../Clases/RestAPI.js';
+import GWS from '../Clases/GoogleWebService'
+import PTRView from 'react-native-pull-to-refresh';//https://www.npmjs.com/package/react-native-pull-to-refresh
 
 
 ESTANDARES = require('../estandares');
@@ -21,27 +24,46 @@ export default class CrearViaje extends Component{
         super(props);
 
         this.state = {
-            reuniones :[{latitud: 10.129449914257651, longitud: -84.12949372082949, descripcion : "lasknd"},
-                {latitud: 10.217632914832444, longitud: -84.2198670655489, descripcion : "lasknd"}],
-            puntoDestino: {latitud: 10.018449614257637, longitud: -84.12949372082949, descripcion : "lasknd"},
-            puntoInicio: {latitud: 10.106632914832444, longitud: -84.2198670655489, descripcion : "lasknd"},
+            reuniones :[],
+            puntoDestino: null,
+            puntoInicio: null,
 
             pantalla: [null, 'none'], //Indica cual pantalla se visualiza. Datos o mapa
             footer:{fontColor:[COLORES.BACKGROUND, COLORES.NEGRO],  fontWeight: ['bold', 'normal'], color:[COLORES.AZUL, COLORES.BACKGROUND]},
         
             fecha:"",
             camposDisponibles:0,
-            precio: "0"
+            precio: "0",
+            descripcion: "",
+            id_vehiculo : -1,
+            vehiculos : []
         }
-        /*this.state.reuniones = [];
-        this.state.puntoDestino = null;
-        this.state.puntoInicio = null;*/
-
+        this._obtenerUsuario();
         this._mapaTerminado = this._mapaTerminado.bind(this);
+    }
+
+    async _obtenerUsuario(){
+        try {
+             var usuario = await AsyncStorage.getItem('@nombre_usuario:key');
+             if (usuario == null){
+                 const { navigate } = this.props.navigation;
+                 navigate('Autenticacion');
+             }
+             this.state.usuario =  usuario;
+         } catch (error) {
+            const { navigate } = this.props.navigation;
+            navigate('Autenticacion');
+         }
+     
     }
 
     async _mapaTerminado( puntoDestinoAux, puntoInicioAux, reunionesAux){
         await this.setState({puntoDestino: puntoDestinoAux, puntoInicio: puntoInicioAux, reuniones:reunionesAux});
+        if(this.state.puntoInicio!=null && this.state.puntoDestino!=null){
+            var precio = await RestAPI.obtenerPrecioCombustible();
+            var distancia = await GWS.obtenerDistancia(this.state.puntoInicio.latitud, this.state.puntoInicio.longitud, this.state.puntoDestino.latitud, this.state.puntoDestino.longitud );
+            this.setState({precio:String(Math.round(precio*(distancia/1000)))});
+        }
     }
       
     async _cambiarPantalla(pantalla){
@@ -56,6 +78,10 @@ export default class CrearViaje extends Component{
     }
 
     async _crearViaje(){
+        if(this.state.id_vehiculo == -1){
+            Alert.alert("Error", "Seleccione un vehículo válido");
+            return;
+        }
         if(this.state.puntoDestino == null || this.state.puntoInicio == null){
             Alert.alert("Error", "Verifique que haya marcado un punto de inicio y otro de destino.");
         }else{
@@ -68,13 +94,53 @@ export default class CrearViaje extends Component{
                     if(this.state.fecha == ""){
                         Alert.alert("Error", "Ingrese una fecha/hora válida");
                     }else{
-                        Alert.alert("Nuevo viaje", "");
+                        
+                        var datos = {
+                            nombre_usuario:this.state.usuario,
+                            id_vehiculo:this.state.id_vehiculo,
+                            latitud_destino:this.state.puntoDestino.latitud,
+                            longitud_destino: this.state.puntoDestino.longitud,
+                            nombre_destino:this.state.puntoDestino.descripcion,
+                            latitud_inicio: this.state.puntoInicio.latitud,
+                            longitud_inicio: this.state.puntoInicio.longitud,
+                            nombre_inicio: this.state.puntoInicio.descripcion,
+                            fecha_hora_inicio:this.state.fecha,
+                            camposDisponibles:this.state.camposDisponibles,
+                            precio:this.state.precio,
+                            descripcion:this.state.descripcion
+                        }
+                        var id_viaje = await RestAPI.crearViaje(datos);
+                        for(var i = 0; i<this.state.reuniones.length;i++){
+                            datos = {
+                                id_viaje:id_viaje,
+                                latitud_punto: this.state.reuniones[i].latitud,
+                                longitud_punto: this.state.reuniones[i].longitud,
+                                nombre: this.state.reuniones[i].descripcion,
+                            }
+                            await RestAPI.crearPuntoReunion(datos);
+                        }
+                        const {goBack} = this.props.navigation;
+                        goBack();
+
                     }
                 }
             }else{
                 Alert.alert("Error", "Ingrese un precio válido");
             }
         }
+    }
+
+    async _obtenerVehiculos() {
+        try{
+            var respuesta = await RestAPI.obtenerVehiculos(this.state.usuario);
+            this.setState({vehiculos:respuesta});
+        }catch(error){
+            if(error.error){
+                Alert.alert("Error", error.error);
+            }else{
+                Alert.alert("Atención", "Ha ocurrido un error inesperado");
+            }
+        }    
     }
 
       render() {
@@ -84,74 +150,98 @@ export default class CrearViaje extends Component{
                 <HeaderComponente nombre = "Crear viaje"></HeaderComponente>
 
                 <View style = {{flex:12}}>
+                        <View style = {{flex:1, display: this.state.pantalla[0], marginLeft:16, marginTop:10}}>
+                            <View style = {{flex:1, flexDirection: "row", borderBottomWidth:3,  borderBottomColor:COLORES.GRIS_MEDIO}}>
+                                    <View style = {{flex:1, justifyContent:"center"}}>
+                                        <Text style = {[estilo.texto, estilo.titulo]}>Fecha y hora:</Text>
+                                    </View>
+                                    <View style = {{flex:2, justifyContent:"center"}}>
+                                        <DatePicker
+                                            style={{width: 200}}
+                                            date={this.state.fecha}
+                                            is24Hour = {true}
+                                            mode="datetime"
+                                            placeholder="Seleccione fecha"
+                                            format="YYYY-MM-DD hh:mm:ss"
+                                            confirmBtnText="Confirm"
+                                            cancelBtnText="Cancel"
+                                            customStyles={{
+                                            dateIcon: {
+                                                position: 'absolute',
+                                                left: 0,
+                                                top: 4,
+                                                marginLeft: 0
+                                            },
+                                            dateInput: {
+                                                marginLeft: 36
+                                            }
+                                            // ... You can check the source to find the other keys. 
+                                            }}
+                                            onDateChange={(date) => {this.setState({fecha: date})}}
+                                        />
+                                    </View>
+                            </View>
+                            
+                            <View style = {{flex:1, flexDirection: "row", borderBottomWidth:3,  borderBottomColor:COLORES.GRIS_MEDIO}}>
+                                    <View style = {{flex:1, justifyContent:"center"}}>
+                                        <Text style = {[estilo.texto, estilo.titulo]}>Campos disponibles:</Text>
+                                    </View>
+                                    <View style = {{flex:2, justifyContent:"center"}}>
+                                        <Picker
+                                            style = {{maxWidth:50}}
+                                            itemStyle = {{maxWidth:50}}
+                                            selectedValue={this.state.camposDisponibles}
+                                            onValueChange={(itemValue, itemIndex) => this.setState({camposDisponibles: itemValue})}>
+                                            <Picker.Item label="1" value= {1} />
+                                            <Picker.Item label="2" value= {2} />
+                                            <Picker.Item label="3" value= {3} />
+                                            <Picker.Item label="4" value= {4} />
+                                            <Picker.Item label="5" value= {5} />
+                                            <Picker.Item label="6" value= {6} />
+                                            <Picker.Item label="7" value= {7} />
+                                            <Picker.Item label="8" value= {8} />
+                                            <Picker.Item label="9" value= {9} />
+                                        </Picker>
+                                    </View>
+                            </View>
+                            <View style = {{flex:1, flexDirection: "row", borderBottomWidth:3,  borderBottomColor:COLORES.GRIS_MEDIO}}>
+                                    <View style = {{flex:1, justifyContent:"center"}}>
+                                        <Text style = {[estilo.texto, estilo.titulo]}>Precio:</Text>
+                                    </View>
+                                    <View style = {{flex:2, justifyContent:"center"}}>
+                                        <TextInput value = {this.state.precio} onChangeText = {(texto)=>{this.setState({precio:texto})}} keyboardType = 'numeric' style = {[estilo.texto,{maxWidth:100}]}></TextInput>
+                                    </View>
+                            </View>
 
-                    <View style = {{flex:1, display: this.state.pantalla[0], marginLeft:16, marginTop:10}}>
-                        <View style = {{flex:1, flexDirection: "row", borderBottomWidth:3,  borderBottomColor:COLORES.GRIS_MEDIO}}>
-                                <View style = {{flex:1, justifyContent:"center"}}>
-                                    <Text style = {[estilo.texto, estilo.titulo]}>Fecha y hora:</Text>
-                                </View>
-                                <View style = {{flex:2, justifyContent:"center"}}>
-                                    <DatePicker
-                                        style={{width: 200}}
-                                        date={this.state.fecha}
-                                        is24Hour = {true}
-                                        mode="datetime"
-                                        placeholder="Seleccione fecha"
-                                        format="DD-MM-YYYY, h:mm:ss"
-                                        confirmBtnText="Confirm"
-                                        cancelBtnText="Cancel"
-                                        customStyles={{
-                                        dateIcon: {
-                                            position: 'absolute',
-                                            left: 0,
-                                            top: 4,
-                                            marginLeft: 0
-                                        },
-                                        dateInput: {
-                                            marginLeft: 36
-                                        }
-                                        // ... You can check the source to find the other keys. 
-                                        }}
-                                        onDateChange={(date) => {this.setState({fecha: date})}}
-                                    />
-                                </View>
+                            <View style = {{flex:1, flexDirection: "row", borderBottomWidth:3,  borderBottomColor:COLORES.GRIS_MEDIO}}>
+                                    <View style = {{flex:1, justifyContent:"center"}}>
+                                        <Text style = {[estilo.texto, estilo.titulo]}>Descripción:</Text>
+                                    </View>
+                                    <View style = {{flex:2, justifyContent:"center"}}>
+                                        <TextInput maxLength = {100} multiline={true} numberOfLines={4} value = {this.state.descripcion} onChangeText = {(texto)=>{this.setState({descripcion:texto})}} style = {[estilo.texto]}></TextInput>
+                                    </View>
+                            </View>
+                            <View style = {{flex:1, flexDirection: "row"}}>
+                                    <View style = {{flex:1, justifyContent:"center"}}>
+                                        <PTRView onRefresh={this._obtenerVehiculos.bind(this)} style = {{flex:1}}>
+                                            <Text style = {[estilo.texto, estilo.titulo]}>Vehículo:</Text>
+                                        </PTRView>
+                                    </View>
+                                    <View style = {{flex:2, justifyContent:"center"}}>
+                                        <Picker
+                                            onValueChange={(itemValue, itemIndex) => this.setState({id_vehiculo: itemValue})}>
+                                            {this.state.vehiculos.length>0?this.state.vehiculos.map((dato, index)=>{
+                                                return <Picker.Item key = {index} label={dato.marca+" / "+dato.placa} value= {dato.id_vehiculo} />
+                                                       
+                                            }):<Picker.Item key = {-1} label={"No tiene vehículos"} value= {-1} />}
+                                        </Picker>
+                                    </View>
+                            </View>
                         </View>
-                        
-                        <View style = {{flex:1, flexDirection: "row", borderBottomWidth:3,  borderBottomColor:COLORES.GRIS_MEDIO}}>
-                                <View style = {{flex:1, justifyContent:"center"}}>
-                                    <Text style = {[estilo.texto, estilo.titulo]}>Campos disponibles:</Text>
-                                </View>
-                                <View style = {{flex:2, justifyContent:"center"}}>
-                                    <Picker
-                                        style = {{maxWidth:50}}
-                                        itemStyle = {{maxWidth:50}}
-                                        selectedValue={this.state.camposDisponibles}
-                                        onValueChange={(itemValue, itemIndex) => this.setState({camposDisponibles: itemValue})}>
-                                        <Picker.Item label="1" value= {1} />
-                                        <Picker.Item label="2" value= {2} />
-                                        <Picker.Item label="3" value= {3} />
-                                        <Picker.Item label="4" value= {4} />
-                                        <Picker.Item label="5" value= {5} />
-                                        <Picker.Item label="6" value= {6} />
-                                        <Picker.Item label="7" value= {7} />
-                                        <Picker.Item label="8" value= {8} />
-                                        <Picker.Item label="9" value= {9} />
-                                    </Picker>
-                                </View>
-                        </View>
-                        <View style = {{flex:1, flexDirection: "row"}}>
-                                <View style = {{flex:1, justifyContent:"center"}}>
-                                    <Text style = {[estilo.texto, estilo.titulo]}>Precio:</Text>
-                                </View>
-                                <View style = {{flex:2, justifyContent:"center"}}>
-                                    <TextInput value = {this.state.precio} onChangeText = {(texto)=>{this.setState({precio:texto})}} keyboardType = 'numeric' style = {[estilo.texto,{maxWidth:100}]}></TextInput>
-                                </View>
-                        </View>
-                    </View>
 
-                    <View style = {{flex:1, display: this.state.pantalla[1]}}>
-                        <MapaComponente onFinish = {this._mapaTerminado} color_destino = {COLORES.AZUL} color_inicio = {COLORES.VERDE} color_reunion = {COLORES.ROJO} informativo = {false} reuniones = {this.state.reuniones} puntoDestino = { this.state.puntoDestino } puntoInicio = { this.state.puntoInicio } />
-                    </View>
+                        <View style = {{flex:1, display: this.state.pantalla[1]}}>
+                            <MapaComponente onFinish = {this._mapaTerminado} color_destino = {COLORES.AZUL} color_inicio = {COLORES.VERDE} color_reunion = {COLORES.ROJO} informativo = {false} reuniones = {this.state.reuniones} puntoDestino = { this.state.puntoDestino } puntoInicio = { this.state.puntoInicio } />
+                        </View>
                 
                 </View>
 

@@ -11,7 +11,7 @@ ESTANDARES = require('../estandares');
 COLORES=ESTANDARES.COLORES;
 TIPOGRAFIAS = ESTANDARES.TIPOGRAFIAS;
 
-export default class ModificarVehiculo extends Component{
+export default class CrearVehiculo extends Component{
     static navigationOptions = {
         header: null
       };
@@ -19,12 +19,11 @@ export default class ModificarVehiculo extends Component{
       constructor(props){
         super(props);
         this.state={
-            ejecutando:false
+            ejecutando:false,
+            marca : "",
+            placa: "",
+            color: ""
         }
-        this.state.marca  = this.props.navigation.state.params.marca;
-        this.state.placa  = this.props.navigation.state.params.placa;
-        this.state.color  = this.props.navigation.state.params.color;
-
         this._obtenerUsuario();
     }
 
@@ -43,12 +42,12 @@ export default class ModificarVehiculo extends Component{
      
     }
 
-    async modificarVehiculo(){
+    async crearVehiculo(){
         try{
             if(this.state.marca == "" || this.state.placa == "" || this.state.color == ""){
                 throw({error:"Debe de completar todos los datos"});
             }
-            await RestAPI.modificarVehiculo(this.props.navigation.state.params.id_vehiculo, this.state.marca, this.state.placa, this.state.color);
+            await RestAPI.crearVehiculo(this.state.usuario, this.state.marca, this.state.placa, this.state.color);
              this.setState({ejecutando:false});
              const {goBack} = this.props.navigation;
              goBack();
@@ -81,7 +80,7 @@ export default class ModificarVehiculo extends Component{
                         <TextInput value = {this.state.color} onChangeText = {(texto)=>{this.setState({color:texto})}} style = {[{flex:4},estilo.texto]} maxLength  = {15}></TextInput>
                     </View>
                     {this.state.ejecutando == true?<ActivityIndicator style = {{marginTop:20, marginBottom:20}}/>:null}
-                    <Button title = "Modificar" color = {COLORES.AZUL} onPress = {()=>{this.modificarVehiculo()}}></Button>
+                    <Button title = "Crear" color = {COLORES.AZUL} onPress = {()=>{this.crearVehiculo()}}></Button>
 
                 </View>
             </View>
