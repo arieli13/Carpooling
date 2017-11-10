@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, StyleSheet, Text, View, Alert, ActivityIndicator, AsyncStorage} from 'react-native';
 import { TextField } from 'react-native-material-textfield'; //https://www.npmjs.com/package/react-native-material-textfield
+import { NavigationActions } from 'react-navigation';
 ESTANDARES = require('../estandares');
 COLORES=ESTANDARES.COLORES;
 TIPOGRAFIAS = ESTANDARES.TIPOGRAFIAS;
@@ -57,8 +58,13 @@ export default class AutenticacionComponente extends Component{
             this.setState({conectando:false});
             
             this._guardarUsuario({nombre_usuario:respuesta.nombre_usuario});
-            const { navigate } = this.props.navigation;
-            navigate('EscogerUsuario');
+
+            const actionToDispatch = NavigationActions.reset({
+                index: 0,
+                key: null,  
+                actions: [NavigationActions.navigate({ routeName: 'EscogerUsuario' })]
+              })
+              this.props.navigation.dispatch(actionToDispatch)
            
         }catch(e){
             if(e.error){

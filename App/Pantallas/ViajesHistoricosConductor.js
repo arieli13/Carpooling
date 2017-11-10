@@ -10,7 +10,7 @@ import RestAPI from '../Clases/RestAPI.js';
 ESTANDARES = require('../estandares');
 COLORES=ESTANDARES.COLORES;
 
-export default class ViajesHistoricosPasajero extends Component{
+export default class ViajesHistoricosConductor extends Component{
     static navigationOptions = {
         header: null
       };
@@ -30,7 +30,7 @@ export default class ViajesHistoricosPasajero extends Component{
 
       async _refresh(){
         try{
-            var respuesta = await RestAPI.obtenerViajesHistoricosPasajero(this.state.usuario);
+            var respuesta = await RestAPI.obtenerViajesHistoricosConductor(this.state.usuario);
             this.setState({viajes:respuesta});
         }catch(error){
             if(error.error){

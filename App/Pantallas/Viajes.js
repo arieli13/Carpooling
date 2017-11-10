@@ -48,7 +48,18 @@ export default class Viajes extends Component{
     }
 
     async _verViaje(id_viaje){
-
+        try{
+            const { navigate } = this.props.navigation;
+            navigate('VerViajeConductor', {id_viaje:id_viaje});
+            
+        }catch(error){
+            this.setState({ejecutando:false});
+            if(error.error){
+                Alert.alert("Error", error.error);
+            }else{
+                Alert.alert("Atención", "Ha ocurrido un error inesperado");
+            }
+        }
     }
 
     async _refresh() {
@@ -90,8 +101,8 @@ export default class Viajes extends Component{
                     <PTRView onRefresh={this._refresh.bind(this)} style = {{flex:1}}>
                         <ScrollView showsVerticalScrollIndicator={false} style = {{flex:1}}>
                         {this.state.viajes.length>0?this.state.viajes.map((dato, index)=>{
-                                return <TouchableOpacity key = {index} onPress = {()=>{this._verViaje(dato.id)}} style = {{flex:1}}>
-                                            <CartaPequenniaComponente key = {index} imagen = {require('../Imagenes/map.png')} mostrarBoton = {false} color  = {COLORES.ROJO} titulo = {dato.nombre_inicio + " - "+dato.nombre_destino} detalle = {dato.fecha_hora_inicio} ></CartaPequenniaComponente>
+                                return <TouchableOpacity key = {index} onPress = {()=>{this._verViaje(dato.id_viaje)}} style = {{flex:1}}>
+                                            <CartaPequenniaComponente key = {index} Background = {COLORES.BLANCO} imagen = {require('../Imagenes/map.png')} mostrarBoton = {false} color  = {COLORES.ROJO} titulo = {dato.nombre_inicio + " - "+dato.nombre_destino} detalle = {dato.fecha_hora_inicio} ></CartaPequenniaComponente>
                                         </TouchableOpacity>;
                                        
                             }):<Text style = {[estilo.texto, estilo.titulo, {alignSelf:"center"}]}>No tiene viajes</Text>}

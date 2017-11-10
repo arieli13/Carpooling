@@ -6,11 +6,6 @@ import HeaderComponente from '../Componentes/HeaderComponente';
 ESTANDARES = require('../estandares');
 COLORES=ESTANDARES.COLORES;
 
-/**
- * 
- */
-
-
 export default class MenuPrincipalConductor extends Component{
     static navigationOptions = {
         header: null,
@@ -61,7 +56,7 @@ export default class MenuPrincipalConductor extends Component{
                             </TouchableOpacity>    
 
 
-                            <TouchableOpacity style = {{flex:1}} onPress = {()=>  {this._cambiarPantalla('')}}>
+                            <TouchableOpacity style = {{flex:1}} onPress = {()=>  {this._cambiarPantalla('ViajesHistoricosConductor')}}>
                                 <CartaComponente imagen = "../Imagenes/landscape_1.png"  titulo = "Viajes históricos" descripcion = "Consulta todos los viajes que has realizado siendo conductor"></CartaComponente>
                             </TouchableOpacity> 
                         </View>

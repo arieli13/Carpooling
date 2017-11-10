@@ -7,10 +7,6 @@ import { NavigationActions } from 'react-navigation';
 ESTANDARES = require('../estandares');
 COLORES=ESTANDARES.COLORES;
 
-/**
- * 
- */
-
 
 export default class MenuPrincipalPasajero extends Component{
     static navigationOptions = {
@@ -78,7 +74,7 @@ export default class MenuPrincipalPasajero extends Component{
                         </View>
                         <View style = {{flex: 1, flexDirection: "row", justifyContent: "space-around"}}>
                             <TouchableOpacity style = {{flex:1}} onPress = {()=>  {this._cambiarPantalla('ViajesHistoricosPasajero')}}>
-                                <CartaComponente imagen = "../Imagenes/landscape_1.png" titulo = "Historial" descripcion = "Información acerca de viajes realizados como pasajero"></CartaComponente>
+                                <CartaComponente imagen = "../Imagenes/landscape_1.png" titulo = "Viajes históricos" descripcion = "Información acerca de viajes realizados como pasajero"></CartaComponente>
                             </TouchableOpacity>
                             <TouchableOpacity style = {{flex:1}} onPress = {()=>{this._cerrarSesion()}}>
                                 <CartaComponente imagen = "../Imagenes/landscape_1.png" titulo = "Cerrar sesión" descripcion = "Cierra sesión en este dispositivo"></CartaComponente>

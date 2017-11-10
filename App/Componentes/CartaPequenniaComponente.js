@@ -30,7 +30,7 @@ export default class CartaPequenniaComponente extends Component{
                     </View>;
         }
         return(
-            <View style = {{flex:1, backgroundColor: "white", marginBottom: 10, borderRadius: 10}}>
+            <View style = {{flex:1, backgroundColor: this.props.Background, marginBottom: 10, borderRadius: 10}}>
                 <View style = {{flex:1, flexDirection: "row"}}>
                     <View style = {{flex:1, height: 70, borderRadius: 70/2, overflow: "hidden", alignItems: "center", position: "relative", backgroundColor: "white", margin: 10}}>
                         <Image style = {{height: 70, borderRadius: 70/2, flex:1, resizeMode: "contain"}} source={this.props.imagen}></Image>

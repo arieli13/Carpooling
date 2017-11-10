@@ -10,6 +10,7 @@ module.exports = {
         ROJO: '#bf0000',
         NEGRO: 'black',
         BLANCO: 'white',
+        AMARILLO: 'yellow',
 
         TEXTO: 'black',
         TITULO: '#1F2F5F'

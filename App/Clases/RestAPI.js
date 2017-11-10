@@ -1,7 +1,7 @@
 export default class RestAPI{
     static restapi = null;
     
-    static ip  = "192.168.4.133";
+    static ip  = "192.168.1.149";
     static puerto = "8080";
     
     constructor(){
@@ -44,6 +44,31 @@ export default class RestAPI{
                 body: JSON.stringify({
                     nombre_usuario: usuario,
                     datos: datos
+                })
+            })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if(responseJson['error']){
+                    reject( {error:responseJson['error']} );
+                }else{
+                    resolve(responseJson);
+                }
+            })
+            .catch((response) => response.json())
+            .catch((error) => {
+                reject( {error:"No se pudo conectar con el servidor"});
+            });
+        });
+    }
+    static buscarViaje(usuario){
+        return new Promise((resolve, reject)=>{
+            fetch('http://'+this.ip+':'+this.puerto+'/api/buscarViaje',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    nombre_usuario: usuario
                 })
             })
             .then((response) => response.json())
@@ -432,6 +457,75 @@ export default class RestAPI{
         });
     }
 
+    static obtenerViajesHistoricosPasajero(usuario){
+        return new Promise((resolve, reject)=>{
+            fetch('http://'+this.ip+':'+this.puerto+'/api/viajesHistoricosPasajero/'+usuario,{
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if(responseJson['error']){
+                    reject( {error:responseJson['error']} );
+                }else{
+                    resolve(responseJson);
+                }
+            })
+            .catch((response) => response.json())
+            .catch((error) => {
+                reject( {error:"No se pudo conectar con el servidor"});
+            });
+        });
+    }
+
+    static obtenerViajesHistoricosConductor(usuario){
+        return new Promise((resolve, reject)=>{
+            fetch('http://'+this.ip+':'+this.puerto+'/api/viajesHistoricosConductor/'+usuario,{
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if(responseJson['error']){
+                    reject( {error:responseJson['error']} );
+                }else{
+                    resolve(responseJson);
+                }
+            })
+            .catch((response) => response.json())
+            .catch((error) => {
+                reject( {error:"No se pudo conectar con el servidor"});
+            });
+        });
+    }
+
+    static obtenerViajesPendientes(usuario){
+        return new Promise((resolve, reject)=>{
+            fetch('http://'+this.ip+':'+this.puerto+'/api/viajePendiente/'+usuario,{
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if(responseJson['error']){
+                    reject( {error:responseJson['error']} );
+                }else{
+                    resolve(responseJson);
+                }
+            })
+            .catch((response) => response.json())
+            .catch((error) => {
+                reject( {error:"No se pudo conectar con el servidor"});
+            });
+        });
+    }
+
     static crearPuntoReunion(datos){
         return new Promise((resolve, reject)=>{
             fetch('http://'+this.ip+':'+this.puerto+'/api/puntoReunion',{
@@ -444,6 +538,111 @@ export default class RestAPI{
                     latitud_punto:datos.latitud_punto,
                     longitud_punto: datos.longitud_punto,
                     nombre:datos.nombre
+                })
+            })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if(responseJson['error']){
+                    reject( {error:responseJson['error']} );
+                }else{
+                    resolve(responseJson);
+                }
+            })
+            .catch((response) => response.json())
+            .catch((error) => {
+                reject( {error:"No se pudo conectar con el servidor"});
+            });
+        });
+    }
+
+    static verViaje(nombre_usuario, id_viaje){
+        return new Promise((resolve, reject)=>{
+            fetch('http://'+this.ip+':'+this.puerto+'/api/verViaje/'+nombre_usuario+'&'+id_viaje,{
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if(responseJson['error']){
+                    reject( {error:responseJson['error']} );
+                }else{
+                    resolve(responseJson);
+                }
+            })
+            .catch((response) => response.json())
+            .catch((error) => {
+                reject( {error:"No se pudo conectar con el servidor"});
+            });
+        });
+    }
+
+    static aceptarRechazarPasajero(id_viaje, nombre_usuario_pasajero, confirmado){
+        return new Promise((resolve, reject)=>{
+            fetch('http://'+this.ip+':'+this.puerto+'/api/pasajero',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id_viaje:id_viaje,
+                    nombre_usuario_pasajero:nombre_usuario_pasajero,
+                    confirmado: confirmado
+                })
+            })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if(responseJson['error']){
+                    reject( {error:responseJson['error']} );
+                }else{
+                    resolve(responseJson);
+                }
+            })
+            .catch((response) => response.json())
+            .catch((error) => {
+                reject( {error:"No se pudo conectar con el servidor"});
+            });
+        });
+    }
+
+    static reservarViaje(nombre_usuario_pasajero, id_puntoReunion, id_viaje){
+        return new Promise((resolve, reject)=>{
+            fetch('http://'+this.ip+':'+this.puerto+'/api/reservarViaje',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id_viaje:id_viaje,
+                    nombre_usuario_pasajero:nombre_usuario_pasajero,
+                    id_punto_reunion: id_puntoReunion
+                })
+            })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if(responseJson['error']){
+                    reject( {error:responseJson['error']} );
+                }else{
+                    resolve(responseJson);
+                }
+            })
+            .catch((response) => response.json())
+            .catch((error) => {
+                reject( {error:"No se pudo conectar con el servidor"});
+            });
+        });
+    }
+
+    static terminarViaje(id_viaje){
+        return new Promise((resolve, reject)=>{
+            fetch('http://'+this.ip+':'+this.puerto+'/api/viajeHistorico',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id_viaje: id_viaje
                 })
             })
             .then((response) => response.json())

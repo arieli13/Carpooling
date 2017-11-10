@@ -50,12 +50,8 @@ export default class Buscar extends Component{
 
         async _verUsuario(nombre_usuario){
             try{
-                this.setState({buscando:true});
-                var respuesta = await RestAPI.obtenerDatosUsuario(this.state.usuario, nombre_usuario);
-                this.setState({buscando:false});
-                
                 const { navigate } = this.props.navigation;
-                navigate('Perfil', respuesta);
+                navigate('Perfil', {nombre_usuario:nombre_usuario});
                 
             }catch(error){
                 this.setState({buscando:false});
@@ -68,23 +64,35 @@ export default class Buscar extends Component{
             }
         }
 
-    async buscarUsuarios(){
-        var respuesta = await RestAPI.buscarUsuarios(this.state.usuario, this.state.nombre_usuario_busqueda);
-        return respuesta;
-    }
+        async _verViaje(id_viaje){
+            try{
+                const { navigate } = this.props.navigation;
+                navigate('VerViajePasajero', {id_viaje:id_viaje});
+                
+            }catch(error){
+                this.setState({ejecutando:false});
+                if(error.error){
+                    Alert.alert("Error", error.error);
+                }else{
+                    Alert.alert("Atención", "Ha ocurrido un error inesperado");
+                }
+            }
+        }
 
     async _refresh() {
         try{
             this.setState({buscando:true});
-            var usuarios = await this.buscarUsuarios()
-            await this.setState({usuarios:usuarios});
+            var usuarios = await RestAPI.buscarUsuarios(this.state.usuario, this.state.nombre_usuario_busqueda);
+            var viajes = await RestAPI.buscarViaje(this.state.usuario);
+            await this.setState({usuarios:usuarios, viajes:viajes});
             this.setState({buscando:false});
         }catch(error){
             this.setState({buscando:false});
             if(error.error){
                 Alert.alert("Error", error.error);
             }else{
-                Alert.alert("Atención", "Ha ocurrido un error inesperado");
+                Alert.alert("ds", error);
+                //Alert.alert("Atención", "Ha ocurrido un error inesperado");
             }
         }
     }
@@ -122,7 +130,7 @@ export default class Buscar extends Component{
                             <ScrollView showsVerticalScrollIndicator={false} style = {{flex:1}}>
                                 {this.state.usuarios.length>0?this.state.usuarios.map((dato, index)=>{
                                     return  <TouchableOpacity onPress = {()=>{this._verUsuario(dato.nombre_usuario)}} key = {index} style = {{flex:1}}>
-                                                <CartaPequenniaComponente key = {index} boton_onPress = {()=>{}} boton_activo = {true} boton_mt = {3} boton_mb = {3} boton_mr = {5} boton_filled = {require('../Imagenes/heart_filled.png')} boton_unfilled = {require('../Imagenes/heart_unfilled.png')} boton_width = {30} boton_height = {10} imagen = {require('../Imagenes/user.png')} mostrarBoton = {false} color  = {COLORES.NEGRO} titulo = {dato.nombre+" "+dato.apellido} detalle = {dato.area}></CartaPequenniaComponente>
+                                                <CartaPequenniaComponente key = {index} Background = {COLORES.BLANCO} boton_onPress = {()=>{}} boton_activo = {true} boton_mt = {3} boton_mb = {3} boton_mr = {5} boton_filled = {require('../Imagenes/heart_filled.png')} boton_unfilled = {require('../Imagenes/heart_unfilled.png')} boton_width = {30} boton_height = {10} imagen = {require('../Imagenes/user.png')} mostrarBoton = {false} color  = {COLORES.NEGRO} titulo = {dato.nombre+" "+dato.apellido} detalle = {dato.area}></CartaPequenniaComponente>
                                             </TouchableOpacity>;
                                 }):<Text style = {[estilo.texto, estilo.titulo, {alignSelf:"center"}]}>No se encontraron resultados</Text>}
                             </ScrollView>
@@ -130,7 +138,16 @@ export default class Buscar extends Component{
                     </View>
 
                     <View style = {{flex:1, display: this.state.pantalla[3], marginLeft:16, marginTop:10}}>
-                        <Text>Viajes</Text>
+                        <PTRView onRefresh={this._refresh.bind(this)} style = {{flex:1}}>
+                            <ScrollView showsVerticalScrollIndicator={false} style = {{flex:1}}>
+                            {this.state.viajes.length>0?this.state.viajes.map((dato, index)=>{
+                                    return <TouchableOpacity key = {index} onPress = {()=>{this._verViaje(dato.id_viaje)}} style = {{flex:1}}>
+                                                <CartaPequenniaComponente key = {index} Background = {COLORES.BLANCO} imagen = {require('../Imagenes/map.png')} mostrarBoton = {false} color  = {COLORES.ROJO} titulo = {dato.nombre_inicio + " - "+dato.nombre_destino} detalle = {dato.fecha_hora_inicio} ></CartaPequenniaComponente>
+                                            </TouchableOpacity>;
+                                        
+                                }):<Text style = {[estilo.texto, estilo.titulo, {alignSelf:"center"}]}>No tiene viajes</Text>}
+                            </ScrollView>
+                        </PTRView>
                     </View>
                 </View>
 

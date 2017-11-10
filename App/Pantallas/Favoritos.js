@@ -42,11 +42,8 @@ export default class Favoritos extends Component{
 
     async _verUsuario(nombre_usuario){
         try{
-            this.setState({ejecutando:true});
-            var respuesta = await RestAPI.obtenerDatosUsuario(this.state.usuario, nombre_usuario);
-            this.setState({ejecutando:false});
             const { navigate } = this.props.navigation;
-            navigate('Perfil', respuesta);
+            navigate('Perfil', {nombre_usuario:nombre_usuario});
             
         }catch(error){
             this.setState({ejecutando:false});
@@ -81,7 +78,7 @@ export default class Favoritos extends Component{
                         <ScrollView showsVerticalScrollIndicator={false} style = {{flex:1}}>
                         {this.state.favoritos.length>0?this.state.favoritos.map((dato, index)=>{
                                 return  <TouchableOpacity onPress = {()=>{this._verUsuario(dato.nombre_usuario)}} key = {index} style = {{flex:1}}>
-                                         <CartaPequenniaComponente key = {index} boton_onPress = {()=>{this._eliminarFavorito(dato.nombre_usuario)}} boton_activo = {true} boton_mt = {3} boton_mb = {3} boton_mr = {5} boton_filled = {require('../Imagenes/heart_filled.png')} boton_unfilled = {require('../Imagenes/heart_unfilled.png')} boton_width = {30} boton_height = {10} imagen = {require('../Imagenes/user.png')} mostrarBoton = {false} color  = {COLORES.NEGRO} titulo = {dato.nombre+" "+dato.apellido} detalle = {dato.area}></CartaPequenniaComponente>
+                                         <CartaPequenniaComponente key = {index} Background = {COLORES.BLANCO} boton_onPress = {()=>{this._eliminarFavorito(dato.nombre_usuario)}} boton_activo = {true} boton_mt = {3} boton_mb = {3} boton_mr = {5} boton_filled = {require('../Imagenes/heart_filled.png')} boton_unfilled = {require('../Imagenes/heart_unfilled.png')} boton_width = {30} boton_height = {10} imagen = {require('../Imagenes/user.png')} mostrarBoton = {false} color  = {COLORES.NEGRO} titulo = {dato.nombre+" "+dato.apellido} detalle = {dato.area}></CartaPequenniaComponente>
                                         </TouchableOpacity>;
                             }):<Text style = {[estilo.texto, estilo.titulo, {alignSelf:"center"}]}>No tiene usuarios favoritos</Text>}
                         </ScrollView>

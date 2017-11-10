@@ -78,7 +78,7 @@ export default class Bloqueados extends Component{
                     <PTRView onRefresh={this._refresh.bind(this)} style = {{flex:1}}>
                         <ScrollView  showsVerticalScrollIndicator={false} style = {{flex:1}}>
                         {this.state.bloqueados.length>0?this.state.bloqueados.map((dato, index)=>{
-                                return <CartaPequenniaComponente key = {index} boton_onPress = {()=>{this._desbloquear(dato.nombre_usuario)}} boton_activo = {true} boton_mt = {3} boton_mb = {3} boton_mr = {5} boton_filled = {require('../Imagenes/lock.png')} boton_unfilled = {require('../Imagenes/lock.png')} boton_width = {30} boton_height = {10} imagen = {require('../Imagenes/user.png')} mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = {dato.nombre+" "+dato.apellido} detalle = {dato.area}></CartaPequenniaComponente>
+                                return <CartaPequenniaComponente key = {index} Background = {COLORES.BLANCO} boton_onPress = {()=>{this._desbloquear(dato.nombre_usuario)}} boton_activo = {true} boton_mt = {3} boton_mb = {3} boton_mr = {5} boton_filled = {require('../Imagenes/lock.png')} boton_unfilled = {require('../Imagenes/lock.png')} boton_width = {30} boton_height = {10} imagen = {require('../Imagenes/user.png')} mostrarBoton = {true} color  = {COLORES.NEGRO} titulo = {dato.nombre+" "+dato.apellido} detalle = {dato.area}></CartaPequenniaComponente>
                                        
                             }):<Text style = {[estilo.texto, estilo.titulo, {alignSelf:"center"}]}>No tiene usuarios bloqueados</Text>}
                         </ScrollView>
