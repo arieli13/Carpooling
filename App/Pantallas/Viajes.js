@@ -25,6 +25,7 @@ export default class Viajes extends Component{
             viajes:[],
             ejecutando:true
         }
+        this._refresh = this._refresh.bind(this);
     
     }
     
@@ -44,13 +45,13 @@ export default class Viajes extends Component{
 
     _crearViaje(){
         const { navigate } = this.props.navigation;
-        navigate('CrearViaje');
+        navigate('CrearViaje', {_refresh: this._refresh});
     }
 
     async _verViaje(id_viaje){
         try{
             const { navigate } = this.props.navigation;
-            navigate('VerViajeConductor', {id_viaje:id_viaje});
+            navigate('VerViajeConductor', {id_viaje:id_viaje, _refresh: this._refresh});
             
         }catch(error){
             this.setState({ejecutando:false});

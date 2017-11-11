@@ -47,7 +47,7 @@ export default class MenuPrincipalConductor extends Component{
 
 
                             <TouchableOpacity style = {{flex:1}} onPress = {()=>  {this._cambiarPantalla('')}}>
-                                <CartaComponente imagen = "../Imagenes/landscape_1.png" titulo = "Viajes frecuentes" descripcion = "Crea un viaje predeterminado o uno nuevo a partir de uno previamente creado"></CartaComponente>
+                                <CartaComponente imagen = "../Imagenes/landscape_1.png" titulo = "Viajes frecuentes" descripcion = "Crea un viaje predeterminado"></CartaComponente>
                             </TouchableOpacity>
                         </View>
                         <View style = {{flex: 1, flexDirection: "row", justifyContent: "space-around"}}>

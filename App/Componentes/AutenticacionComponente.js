@@ -38,7 +38,7 @@ export default class AutenticacionComponente extends Component{
     async componentWillMount(){
         try {
             var usuario = await AsyncStorage.getItem('@nombre_usuario:key');
-            if (usuario !== null){
+            if (usuario != null){
                 const { navigate } = this.props.navigation;
                 navigate('EscogerUsuario');
             }

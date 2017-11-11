@@ -106,6 +106,9 @@ export default class CrearViaje extends Component{
                                 await RestAPI.crearPuntoReunion(datos);
                             }
                             this.setState({ejecutando:false});
+                            if(this.props.navigation.state.params._refresh){
+                                this.props.navigation.state.params._refresh();
+                            }
                             const {goBack} = this.props.navigation;
                             goBack();
                         }catch(error){
@@ -241,10 +244,11 @@ export default class CrearViaje extends Component{
                                         <Picker
                                             selectedValue={this.state.id_vehiculo}
                                             onValueChange={(itemValue, itemIndex) => this.setState({id_vehiculo: itemValue})}>
+                                            <Picker.Item label={"Seleccione vehículo"} value= {-1} />
                                             {this.state.vehiculos.length>0?this.state.vehiculos.map((dato, index)=>{
                                                 return <Picker.Item key = {index} label={dato.marca+" / "+dato.placa} value= {dato.id_vehiculo} />
                                                        
-                                            }):<Picker.Item key = {-1} label={"No tiene vehículos"} value= {-1} />}
+                                            }):<Picker.Item key = {-1} label={"No tiene vehículos"} value= {-1}/>}
                                         </Picker>
                                     </View>
                             </View>

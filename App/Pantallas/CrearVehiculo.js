@@ -48,6 +48,9 @@ export default class CrearVehiculo extends Component{
             }
             await RestAPI.crearVehiculo(this.state.usuario, this.state.marca, this.state.placa, this.state.color);
              this.setState({ejecutando:false});
+             if(this.props.navigation.state.params._refresh){
+                this.props.navigation.state.params._refresh();
+             }
              const {goBack} = this.props.navigation;
              goBack();
          }catch(error){

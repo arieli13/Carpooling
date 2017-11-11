@@ -18,6 +18,7 @@ export default class Favoritos extends Component{
     constructor(props){
         super(props);
             this.state = { favoritos: [], ejecutando:true}
+        this._refresh = this._refresh.bind(this);
     }
 
     async componentWillMount(){
@@ -43,7 +44,7 @@ export default class Favoritos extends Component{
     async _verUsuario(nombre_usuario){
         try{
             const { navigate } = this.props.navigation;
-            navigate('Perfil', {nombre_usuario:nombre_usuario});
+            navigate('Perfil', {nombre_usuario:nombre_usuario, _refresh: this._refresh});
             
         }catch(error){
             this.setState({ejecutando:false});

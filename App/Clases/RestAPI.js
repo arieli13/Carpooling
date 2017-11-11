@@ -345,6 +345,32 @@ export default class RestAPI{
         });
     }
 
+    static eliminarViaje(id_viaje){
+        return new Promise((resolve, reject)=>{
+            fetch('http://'+this.ip+':'+this.puerto+'/api/viaje',{
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id_viaje:id_viaje
+                })
+            })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if(responseJson['error']){
+                    reject( {error:responseJson['error']} );
+                }else{
+                    resolve(responseJson);
+                }
+            })
+            .catch((response) => response.json())
+            .catch((error) => {
+                reject( {error:"No se pudo conectar con el servidor"});
+            });
+        });
+    }
+
     static modificarVehiculo(id_vehiculo, marca, placa, color){
         return new Promise((resolve, reject)=>{
             fetch('http://'+this.ip+':'+this.puerto+'/api/vehiculo',{
@@ -558,6 +584,29 @@ export default class RestAPI{
     static verViaje(nombre_usuario, id_viaje){
         return new Promise((resolve, reject)=>{
             fetch('http://'+this.ip+':'+this.puerto+'/api/verViaje/'+nombre_usuario+'&'+id_viaje,{
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if(responseJson['error']){
+                    reject( {error:responseJson['error']} );
+                }else{
+                    resolve(responseJson);
+                }
+            })
+            .catch((response) => response.json())
+            .catch((error) => {
+                reject( {error:"No se pudo conectar con el servidor"});
+            });
+        });
+    }
+
+    static verViajeHistorico(nombre_usuario, id_viajeHistorico){
+        return new Promise((resolve, reject)=>{
+            fetch('http://'+this.ip+':'+this.puerto+'/api/verViajeHistorico/'+nombre_usuario+'&'+id_viajeHistorico,{
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

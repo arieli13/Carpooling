@@ -25,6 +25,7 @@ export default class Vehiculos extends Component{
             vehiculos:[],
             ejecutando:true
         }
+        this._refresh = this._refresh.bind(this);
     
     }
     
@@ -49,13 +50,14 @@ export default class Vehiculos extends Component{
             id_vehiculo: vehiculo,
             marca: marca, 
             placa:placa,
-            color:color
+            color:color,
+            _refresh : this._refresh
         });
     }
 
     _crearVehiculo(){
         const { navigate } = this.props.navigation;
-        navigate('CrearVehiculo');
+        navigate('CrearVehiculo', {_refresh: this._refresh});
     }
 
     async _refresh() {

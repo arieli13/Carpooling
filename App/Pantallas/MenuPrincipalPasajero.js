@@ -39,7 +39,7 @@ export default class MenuPrincipalPasajero extends Component{
             const actionToDispatch = NavigationActions.reset({
                 index: 0,
                 key: null,  
-                actions: [NavigationActions.navigate({ routeName: 'Home' })]
+                actions: [NavigationActions.navigate({ routeName: 'Autenticacion' })]
               })
               this.props.navigation.dispatch(actionToDispatch)
         }catch(error){
@@ -78,6 +78,11 @@ export default class MenuPrincipalPasajero extends Component{
                             </TouchableOpacity>
                             <TouchableOpacity style = {{flex:1}} onPress = {()=>{this._cerrarSesion()}}>
                                 <CartaComponente imagen = "../Imagenes/landscape_1.png" titulo = "Cerrar sesión" descripcion = "Cierra sesión en este dispositivo"></CartaComponente>
+                            </TouchableOpacity>
+                        </View>
+                        <View style = {{flex: 1, flexDirection: "row", justifyContent: "space-around"}}>
+                            <TouchableOpacity style = {{flex:1}} onPress = {()=>  {this._cambiarPantalla('MiPerfil')}}>
+                                <CartaComponente imagen = "../Imagenes/landscape_1.png" titulo = "Mi perfil" descripcion = "Información de usuario"></CartaComponente>
                             </TouchableOpacity>
                         </View>
                     </ScrollView>

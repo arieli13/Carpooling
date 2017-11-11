@@ -22,12 +22,17 @@ import Viajes from './App/Pantallas/Viajes';
 import Buscar_Navigator from './App/Pantallas/Buscar_Navigator';
 import VerViajeConductor from './App/Pantallas/VerViajeConductor';
 import VerViajePasajero from './App/Pantallas/VerViajePasajero';
+import VerViajeHistoricoPasajero from './App/Pantallas/VerViajeHistoricoPasajero';
+import VerViajeHistoricoConductor from './App/Pantallas/VerViajeHistoricoConductor';
+import MiPerfil from './App/Pantallas/MiPerfil';
+
+import Blanca from './App/Pantallas/Blanca';
 /////////
 import CrearViaje from './App/Pantallas/CrearViaje';
 export default app = StackNavigator({
-    'Home': { screen: Autenticacion },
+    'Home': { screen: Blanca },
     'EscogerUsuario': {screen: EscogerUsuario},
-
+    'Autenticacion': {screen:Autenticacion},
 
     'MenuPrincipalPasajero': {screen: MenuPrincipalPasajero},
     'Favoritos': {screen: Favoritos},
@@ -46,7 +51,11 @@ export default app = StackNavigator({
     'VerViajePasajero':{screen:VerViajePasajero},
     'TerminosCondiciones':{screen:TerminosCondiciones},
     'Viajes':{screen:Viajes},
-    'Buscar_Navigator':{screen:Buscar_Navigator}
+    'Buscar_Navigator':{screen:Buscar_Navigator},
+    'VerViajeHistoricoConductor':{screen: VerViajeHistoricoConductor},
+    'VerViajeHistoricoPasajero':{screen: VerViajeHistoricoPasajero},
+    'MiPerfil':{screen: MiPerfil},
+    'Blanca':{screen: Blanca}
   });
 
 

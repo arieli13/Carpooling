@@ -55,6 +55,9 @@ export default class Perfil extends Component{
                 datos.favorito = true;
                 await this.setState({datos:datos});
             }
+            if(this.props.navigation.state.params._refresh){
+                await this.props.navigation.state.params._refresh();
+            }
             await this.setState({ejecutando:false});
         }catch(error){
             await this.setState({ejecutando:false});
@@ -70,6 +73,9 @@ export default class Perfil extends Component{
         try{
            await RestAPI.bloquearUsuario(this.state.usuario, this.props.navigation.state.params.nombre_usuario);
             this.setState({ejecutando:false});
+            if(this.props.navigation.state.params._refresh){
+                await this.props.navigation.state.params._refresh();
+            }
             const {goBack} = this.props.navigation;
             goBack();
         }catch(error){
@@ -109,7 +115,6 @@ export default class Perfil extends Component{
         return(
             <View View style = {{flex:1, backgroundColor: COLORES.BACKGROUND}}>
                 <HeaderComponente nombre = "Perfil"></HeaderComponente>
-                
                 <View style = {{flex:8}}>
                 {perfil}
                 </View>

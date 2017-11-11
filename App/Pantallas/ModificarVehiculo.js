@@ -48,6 +48,9 @@ export default class ModificarVehiculo extends Component{
             }
             await RestAPI.modificarVehiculo(this.props.navigation.state.params.id_vehiculo, this.state.marca, this.state.placa, this.state.color);
              this.setState({ejecutando:false});
+             if(this.props.navigation.state.params._refresh){
+                this.props.navigation.state.params._refresh();
+             }
              const {goBack} = this.props.navigation;
              goBack();
          }catch(error){

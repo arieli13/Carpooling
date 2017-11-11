@@ -153,6 +153,9 @@ export default class VerViajePasajero extends Component{
             await this.setState({ejecutando:true});
             var respuesta = await RestAPI.aceptarRechazarPasajero(this.props.navigation.state.params.id_viaje, this.state.usuario, 0);
             await this._refresh();
+            if(this.props.navigation.state.params._refresh){
+                await this.props.navigation.state.params._refresh();
+             }
             await this.setState({ejecutando:false});
         }catch(error){
             if(error.error){

@@ -24,12 +24,13 @@ export default class ViajesPendientes extends Component{
             ejecutando: true,
             usuario: 0
         }
+        this._refresh = this._refresh.bind(this);
     }
 
       _verViaje(id_viaje){
         try{
             const { navigate } = this.props.navigation;
-            navigate('VerViajePasajero', {id_viaje:id_viaje});
+            navigate('VerViajePasajero', {id_viaje:id_viaje, _refresh: this._refresh});
             
         }catch(error){
             this.setState({ejecutando:false});
@@ -49,8 +50,7 @@ export default class ViajesPendientes extends Component{
             if(error.error){
                 Alert.alert("Error", error.error);
             }else{
-                //Alert.alert("Atención", "Ha ocurrido un error inesperado");
-                Alert.alert("Atención", String(error));
+                Alert.alert("Atención", "Ha ocurrido un error inesperado");
             }
         }   
       }
